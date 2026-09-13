@@ -958,12 +958,16 @@ async function handlePostToTumblr() {
     const total = generatedPins.length;
 
     for (let i = 0; i < total; i++) {
-        const pin = generatedPins[i];
-        const imageUrl = pin.githubUrl || `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/images/${pin.fileName}`;
+        // Tumblr Photo Post URL Construction
+        const rawGithubUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/images/${pin.fileName}`;
+        const jsdelivrUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}@main/images/${pin.fileName}`;
+        const liveImgUrl = pin.githubUrl || rawGithubUrl;
 
-        // Guaranteed Tumblr Photo Post Format with Embedded Image + Caption
-        const captionHtml = `<p><strong>${pin.pinTitle}</strong></p><p>${pin.pinDescription}</p><p>👉 <strong>Play Store:</strong> <a href="${pin.destinationUrl}">${pin.destinationUrl}</a></p>`;
-        const tumblrShareUrl = `https://www.tumblr.com/widgets/share/tool?posttype=photo&source=${encodeURIComponent(imageUrl)}&content=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(captionHtml)}&clickthru=${encodeURIComponent(pin.destinationUrl)}&tags=${encodeURIComponent(pin.appName + ',DroidV,PrivacyFirst,AndroidApps')}`;
+        // Caption with embedded HTML Image tag and Play Store Link
+        const captionHtml = `<p><img src="${liveImgUrl}" alt="${pin.appName} Visual" style="max-width:100%; border-radius:12px;" /></p><p><strong>${pin.pinTitle}</strong></p><p>${pin.pinDescription}</p><p>👉 <strong>Play Store:</strong> <a href="${pin.destinationUrl}">${pin.destinationUrl}</a></p>`;
+        
+        // Tumblr share intent widget (Photo post type)
+        const tumblrShareUrl = `https://www.tumblr.com/widgets/share/tool?posttype=photo&source=${encodeURIComponent(liveImgUrl)}&photo=${encodeURIComponent(liveImgUrl)}&caption=${encodeURIComponent(captionHtml)}&clickthru=${encodeURIComponent(pin.destinationUrl)}&tags=${encodeURIComponent(pin.appName + ',DroidV,PrivacyFirst,AndroidApps')}`;
 
         // Open Tumblr Share Tool in separate popup window per pin
         window.open(tumblrShareUrl, `tumblr_win_${i}`, 'width=560,height=620,resizable=yes,scrollbars=yes');
