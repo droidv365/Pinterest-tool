@@ -153,20 +153,21 @@ const STORY_PATTERNS = {
     }
 };
 
-const VARIATION_PREFIXES = [
-    "REAL CONFESSION: ", "LIFE HACK: ", "MINIMALIST ROUTINE: ", "DAILY HABIT: ",
-    "TRUE STORY: ", "ESSENTIAL TOOL: ", "PERSONAL EXPERIMENT: ", "30-DAY CHALLENGE: "
-];
-
-const VARIATION_SUFFIXES = [
-    " (Here is what happened)", " (Zero ads, 100% private)", " (The simple offline fix)",
-    " (Saved me hours of stress)", " (Works everywhere offline)", " (No monthly subscription)"
+const RECOMMENDATION_LINES = [
+    "💡 I tested 10+ paid store apps before finding this zero-ad offline tool. Linked below!",
+    "⭐ Tired of $10/mo subscriptions? This Play Store app works 100% free offline.",
+    "📱 Most store tools are filled with annoying ads. This simple app fixed that completely.",
+    "✨ Found this hidden gem on the Play Store after trying 8 laggy online readers.",
+    "🔒 No bank logins or cloud accounts needed. Grab the direct Play Store link below!",
+    "🚀 Replaced 3 expensive SaaS apps with this single clean Play Store companion.",
+    "🎯 Tested this for 30 days — zero popup ads, 100% private. Store link attached!"
 ];
 
 function getDynamicStoryContent(app) {
     const data = STORY_PATTERNS[app.id] || STORY_PATTERNS['astroguide'];
     let baseHook = getRandomItem(data.hooks);
     let baseSub = getRandomItem(data.subtitles);
+    let microStory = getRandomItem(RECOMMENDATION_LINES);
 
     if (Math.random() > 0.4) {
         baseHook = getRandomItem(VARIATION_PREFIXES) + baseHook;
@@ -175,7 +176,7 @@ function getDynamicStoryContent(app) {
         baseHook = baseHook + getRandomItem(VARIATION_SUFFIXES);
     }
 
-    return { hook: baseHook, subtitle: baseSub, keywords: data.keywords };
+    return { hook: baseHook, subtitle: baseSub, microStory: microStory, keywords: data.keywords };
 }
 
 // ---- GitHub Config ----
@@ -410,7 +411,7 @@ function fitAndWrapText(ctx2, text, x, y, maxWidth, maxHeight, initialFontSize, 
 }
 
 // ---- Canvas Pin Renderer ----
-async function renderPinCanvas(app, hookText, subtitleText) {
+async function renderPinCanvas(app, hookText, subtitleText, microStory) {
     const W = 1000, H = 1500;
     canvas.width = W;
     canvas.height = H;
@@ -508,8 +509,8 @@ async function renderPinCanvas(app, hookText, subtitleText) {
         ctx,
         `"${hookText}"`,
         boxX + 48, boxY + 148,
-        boxW - 96, 370,
-        44, '800'
+        boxW - 96, 340,
+        42, '800'
     );
     ctx.restore();
 
@@ -517,12 +518,25 @@ async function renderPinCanvas(app, hookText, subtitleText) {
     ctx.save();
     ctx.fillStyle = 'rgba(226,232,240,0.88)';
     ctx.textAlign = 'left';
-    fitAndWrapText(
+    const subBottomY = fitAndWrapText(
         ctx,
         subtitleText,
-        boxX + 48, hookBottomY + 42,
-        boxW - 96, 200,
-        27, '500'
+        boxX + 48, hookBottomY + 36,
+        boxW - 96, 160,
+        26, '500'
+    );
+    ctx.restore();
+
+    // Relatable Experience Micro-Story Line (Tier-1 Conversion Booster)
+    ctx.save();
+    ctx.fillStyle = '#facc15'; // Soft Gold Accent
+    ctx.textAlign = 'left';
+    fitAndWrapText(
+        ctx,
+        microStory,
+        boxX + 48, subBottomY + 32,
+        boxW - 96, 100,
+        22, '600'
     );
     ctx.restore();
 
@@ -586,9 +600,9 @@ async function handleBulkGenerate() {
 
             for (let i = 0; i < pinsPerApp; i++) {
                 const utmCode = String(globalSeed).padStart(3, '0');
-                const { hook: hookText, subtitle: subtitleText, keywords } = getDynamicStoryContent(app);
+                const { hook: hookText, subtitle: subtitleText, microStory, keywords } = getDynamicStoryContent(app);
 
-                const { blob, dataUrl } = await renderPinCanvas(app, hookText, subtitleText);
+                const { blob, dataUrl } = await renderPinCanvas(app, hookText, subtitleText, microStory);
 
                 // Dynamic URL Anti-Spam Engine: Generates unique URL parameter combinations for Play Store links
                 const randTerm = ['android', 'mobile', 'focus', 'minimalist', 'privacy', 'daily', 'routine'][Math.floor(Math.random() * 7)];

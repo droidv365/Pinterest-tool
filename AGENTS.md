@@ -57,6 +57,7 @@ Automate Pinterest Pin creation for **9 DroidV Android Apps** using a local HTML
 - **The Curiosity Gap (Open Loop Stories)**: Every pin MUST use a relatable human problem, confession, or lifestyle upgrade (e.g. *"I was losing 2 hours a day to brain fog until I accidentally tried this 3-step digital minimalism trick..."*).
 - **Short Impactful Text Overlay**: Never clutter images with long text. Use short, punchy hooks that hit the brain (*"How I fixed my sleep schedule without pills"*, *"The 1-minute daily habit nobody is talking about"*).
 - **FOMO & Identity Trigger**: Position the app as an *Aesthetic Lifestyle Upgrade* rather than a generic productivity tool.
+- **Personal Recommendation & Micro-Story Overlay**: Each pin image includes a subtle gold personal experience line (e.g. *"💡 I tested 10+ paid store apps before finding this zero-ad offline tool. Linked below!"*, *"⭐ Tired of $10/mo subscriptions? This Play Store app works 100% free offline."*).
 - **Soft CTA Button**: Always use curiosity-driven soft CTA: `Read Full Story & Solution ➔`. Never say "Download Now".
 
 ### 2. 100% Dynamic Content Combinations & Zero Duplicates
