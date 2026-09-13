@@ -807,6 +807,84 @@ function handleDownloadCsv() {
     updateStatus('CSV Downloaded!', 'Upload pinterest_bulk_upload.csv to Pinterest Bulk Uploader!', 100, false);
 }
 
+// ---- Delete All Images from GitHub ----
+async function handleDeleteGithubImages() {
+    const confirmDelete = confirm('Are you sure you want to delete all uploaded pin images from your GitHub repository (images/ folder)?');
+    if (!confirmDelete) return;
+
+    btnDeleteGithub.disabled = true;
+    updateStatus('Deleting GitHub Images...', 'Fetching list of images from GitHub repository...', 10, true);
+
+    try {
+        const repoContentsUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/images`;
+        const res = await fetch(repoContentsUrl, {
+            headers: {
+                'Authorization': `token ${GITHUB_CONFIG.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (!res.ok) {
+            if (res.status === 404) {
+                updateStatus('No Images Found', 'GitHub images/ directory is already empty.', 100, false);
+                btnDeleteGithub.disabled = false;
+                alert('No images found in GitHub repository to delete.');
+                return;
+            }
+            throw new Error(`GitHub API Error (${res.status}): ${await res.text()}`);
+        }
+
+        const files = await res.json();
+        const imageFiles = Array.isArray(files) ? files.filter(f => f.type === 'file') : [];
+
+        if (imageFiles.length === 0) {
+            updateStatus('No Images Found', 'GitHub images/ directory is already empty.', 100, false);
+            btnDeleteGithub.disabled = false;
+            alert('No images found in GitHub repository to delete.');
+            return;
+        }
+
+        let deletedCount = 0;
+        const total = imageFiles.length;
+
+        for (let i = 0; i < total; i++) {
+            const file = imageFiles[i];
+            const delUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${file.path}`;
+
+            const delRes = await fetch(delUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `token ${GITHUB_CONFIG.token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/vnd.github.v3+json'
+                },
+                body: JSON.stringify({
+                    message: `Delete image ${file.name} via Panel`,
+                    sha: file.sha,
+                    branch: GITHUB_CONFIG.branch
+                })
+            });
+
+            if (delRes.ok) {
+                deletedCount++;
+            }
+
+            const pct = 10 + Math.round(((i + 1) / total) * 90);
+            updateStatus('Deleting GitHub Images...', `Deleted ${deletedCount} of ${total} images`, pct, true);
+            await new Promise(r => setTimeout(r, 50));
+        }
+
+        updateStatus('GitHub Cleaned!', `Successfully deleted ${deletedCount} images from GitHub!`, 100, false);
+        alert(`Successfully deleted ${deletedCount} images from GitHub repository!`);
+    } catch (err) {
+        console.error('Delete Error:', err);
+        updateStatus('Delete Error', `Error: ${err.message}`, 0, false);
+        alert(`Delete Error: ${err.message}`);
+    } finally {
+        btnDeleteGithub.disabled = false;
+    }
+}
+
 // ---- Init on DOM Ready ----
 document.addEventListener('DOMContentLoaded', () => {
     // Canvas
@@ -827,6 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGenerateAll = document.getElementById('btnGenerateAll');
     btnUploadGithub = document.getElementById('btnUploadGithub');
     btnDownloadCsv = document.getElementById('btnDownloadCsv');
+    btnDeleteGithub = document.getElementById('btnDeleteGithub');
 
     // Inputs
     pinsPerAppInput = document.getElementById('pinsPerApp');
@@ -849,6 +928,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGenerateAll.addEventListener('click', handleBulkGenerate);
     btnUploadGithub.addEventListener('click', handleUploadToGithub);
     btnDownloadCsv.addEventListener('click', handleDownloadCsv);
+    btnDeleteGithub.addEventListener('click', handleDeleteGithubImages);
 
     // Modal listeners
     modalClose.addEventListener('click', closeModal);

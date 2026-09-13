@@ -190,6 +190,20 @@ body {
     background: #059669;
 }
 
+.btn-danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    margin-top: 6px;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #dc2626;
+    color: white;
+    border-color: #dc2626;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+}
+
 /* Status Card */
 .status-card {
     background: #1a233a;
