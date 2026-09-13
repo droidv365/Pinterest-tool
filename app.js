@@ -153,6 +153,16 @@ const STORY_PATTERNS = {
     }
 };
 
+const VARIATION_PREFIXES = [
+    "REAL CONFESSION: ", "LIFE HACK: ", "MINIMALIST ROUTINE: ", "DAILY HABIT: ",
+    "TRUE STORY: ", "ESSENTIAL TOOL: ", "PERSONAL EXPERIMENT: ", "30-DAY CHALLENGE: "
+];
+
+const VARIATION_SUFFIXES = [
+    " (Here is what happened)", " (Zero ads, 100% private)", " (The simple offline fix)",
+    " (Saved me hours of stress)", " (Works everywhere offline)", " (No monthly subscription)"
+];
+
 const RECOMMENDATION_LINES = [
     "💡 I tested 10+ paid store apps before finding this zero-ad offline tool. Linked below!",
     "⭐ Tired of $10/mo subscriptions? This Play Store app works 100% free offline.",
