@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DroidV - Pinterest Bulk Generator & Publisher</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">P</div>
+                <div>
+                    <h2>DroidV Pinterest Engine</h2>
+                    <span class="badge">Bulk Automation</span>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <h3>Generator Settings</h3>
+                
+                <div class="form-group">
+                    <label for="pinsPerApp">Pins per App (Total 9 Apps):</label>
+                    <input type="number" id="pinsPerApp" value="2" min="1" max="10">
+                    <small class="help-text">e.g. 2 per app = 18 Unique Pins total</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="utmCampaign">UTM Campaign Name:</label>
+                    <input type="text" id="utmCampaign" value="pinterest_bulk">
+                </div>
+
+                <div class="form-group">
+                    <label for="boardName">Pinterest Board Name:</label>
+                    <input type="text" id="boardName" value="Best Offline Android Apps">
+                </div>
+
+                <div class="form-group">
+                    <label for="githubRepo">GitHub Target Repo:</label>
+                    <input type="text" id="githubRepo" value="droidv365/Pinterest-tool" readonly>
+                </div>
+            </div>
+
+            <div class="control-section action-buttons">
+                <button id="btnGenerateAll" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    1-Click Bulk Generate All
+                </button>
+
+                <button id="btnUploadGithub" class="btn btn-github" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Upload Images to GitHub
+                </button>
+
+                <button id="btnDownloadCsv" class="btn btn-success" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download Pinterest CSV
+                </button>
+            </div>
+
+            <!-- Status Box -->
+            <div class="status-card" id="statusCard">
+                <div class="status-header">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span id="statusText">Ready to Generate</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+                <p class="status-detail" id="statusDetail">Select pins per app and click '1-Click Bulk Generate All'.</p>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <header class="top-header">
+                <div>
+                    <h1>Pinterest Bulk Pin Studio</h1>
+                    <p>Automated 2:3 Canvas Designs + Psychological Hooks + UTM Tracking + GitHub Sync</p>
+                </div>
+                <div class="counter-badge">
+                    Total Generated: <span id="pinCounter">0</span> Pins
+                </div>
+            </header>
+
+            <div class="pins-grid" id="pinsGrid">
+                <div class="empty-state">
+                    <div class="empty-icon">🎨</div>
+                    <h3>No Pins Generated Yet</h3>
+                    <p>Click "1-Click Bulk Generate All" in the left sidebar to generate unique high-converting WebP pin designs for all 9 apps.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Image Slider -->
+    <div class="modal-overlay" id="modalSlider">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <button class="slider-btn prev-btn" id="sliderPrev">&#10094;</button>
+            
+            <div class="slider-body">
+                <div class="slider-img-container">
+                    <img id="modalImg" src="" alt="Pin Preview">
+                </div>
+                <div class="slider-info">
+                    <span class="badge" id="modalBadge">App Name</span>
+                    <h3 id="modalTitle">Pin Title</h3>
+                    <p id="modalDesc">Description...</p>
+                    <div class="modal-url" id="modalUrl">UTM Link...</div>
+                    <div class="slider-counter" id="modalCounter">1 / 18</div>
+                </div>
+            </div>
+
+            <button class="slider-btn next-btn" id="sliderNext">&#10095;</button>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas Container for 2:3 Pin Rendering (1000x1500 px) -->
+    <div style="display: none;">
+        <canvas id="pinCanvas" width="1000" height="1500"></canvas>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
