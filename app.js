@@ -194,6 +194,7 @@ const APPS_DATABASE = [
         category: 'Spiritual & Daily Mindset',
         logoPath: './Logo/AstroGuide Daily Horoscope.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.astroguide.daily.horoscope.zodiac.astrology.tarot.reading.luck',
+        landingUrl: 'https://droidv.vercel.app/apps/astroguide/index.html',
         bgGradients: [
             ['#1a0033', '#3d0066', '#000000'],
             ['#0d001a', '#4c0080', '#1a0033'],
@@ -208,6 +209,7 @@ const APPS_DATABASE = [
         category: 'Work-Life Balance',
         logoPath: './Logo/Shift Work Calendar & Roster.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.shiftsync.workcalendar',
+        landingUrl: 'https://droidv.vercel.app/apps/shiftsync/index.html',
         bgGradients: [
             ['#0f2027', '#203a43', '#2c5364'],
             ['#111827', '#1f2937', '#374151'],
@@ -222,6 +224,7 @@ const APPS_DATABASE = [
         category: 'Financial Freedom & Relief',
         logoPath: './Logo/Offline Subscription Tracker.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.subvault.subscription.tracker',
+        landingUrl: 'https://droidv.vercel.app/apps/subvault/index.html',
         bgGradients: [
             ['#064e3b', '#047857', '#0f172a'],
             ['#065f46', '#10b981', '#064e3b'],
@@ -236,6 +239,7 @@ const APPS_DATABASE = [
         category: 'Peace of Mind & Focus',
         logoPath: './Logo/PDF Viewer & Reader Offline.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.pdfviewer.offline.reader',
+        landingUrl: 'https://droidv.vercel.app/apps/pdf-viewer/index.html',
         bgGradients: [
             ['#1e1e2e', '#2a2a40', '#11111b'],
             ['#0f172a', '#1e293b', '#334155'],
@@ -250,6 +254,7 @@ const APPS_DATABASE = [
         category: 'Business Growth & Time Saved',
         logoPath: './Logo/Invoice & Estimate Maker App.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.estimatemaker.invoicing.receipt',
+        landingUrl: 'https://droidv.vercel.app/apps/estimate-maker/index.html',
         bgGradients: [
             ['#451a03', '#78350f', '#0f172a'],
             ['#7c2d12', '#9a3412', '#1c1917'],
@@ -264,6 +269,7 @@ const APPS_DATABASE = [
         category: 'Inner Peace & Habits',
         logoPath: './Logo/Spiritual Tally Counter.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.digitalcounter.tally.japamala',
+        landingUrl: 'https://droidv.vercel.app/apps/counter-app/index.html',
         bgGradients: [
             ['#4a1d96', '#5b21b6', '#0f172a'],
             ['#2e1065', '#3b0764', '#1e1b4b'],
@@ -278,6 +284,7 @@ const APPS_DATABASE = [
         category: 'Stress-Free Friendships',
         logoPath: './Logo/SplitApp Easy Bill Splitter.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.billsplitter.group.expenses',
+        landingUrl: 'https://droidv.vercel.app/apps/bill-splitter/index.html',
         bgGradients: [
             ['#0369a1', '#0284c7', '#0f172a'],
             ['#0f766e', '#14b8a6', '#022c22'],
@@ -292,6 +299,7 @@ const APPS_DATABASE = [
         category: 'Confident Brain Building',
         logoPath: './Logo/Cool Math Game Offline Math.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.mathgame.kids.puzzle.offline',
+        landingUrl: 'https://droidv.vercel.app/apps/math-game/index.html',
         bgGradients: [
             ['#854d0e', '#a16207', '#0f172a'],
             ['#b45309', '#d97706', '#1c1917'],
@@ -306,6 +314,7 @@ const APPS_DATABASE = [
         category: 'Instant Convenience',
         logoPath: './Logo/Image to PDF Converter.webp',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.imagetopdf.converter.offline',
+        landingUrl: 'https://droidv.vercel.app/apps/image-to-pdf/index.html',
         bgGradients: [
             ['#1e293b', '#334155', '#0f172a'],
             ['#0f172a', '#1e293b', '#000000'],
@@ -581,7 +590,8 @@ async function handleBulkGenerate() {
 
                 const { blob, dataUrl } = await renderPinCanvas(app, hookText, subtitleText);
 
-                const trackedUrl = `${app.playStoreUrl}&utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_content=${utmCode}`;
+                const targetBaseUrl = app.landingUrl || app.playStoreUrl;
+                const trackedUrl = `${targetBaseUrl}?utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_content=${utmCode}`;
                 const fileName = `pin_${app.id}_${utmCode}.webp`;
                 const pinTitle = hookText;
                 const pinDescription = `${hookText} ${subtitleText} Discover how to reclaim your daily focus with ${app.name} — a 100% offline, privacy-first Android solution with zero logins. Keywords: ${keywords}. #${app.name.replace(/\s+/g, '')} #MinimalistTools #PrivacyFirst #DroidV`;
