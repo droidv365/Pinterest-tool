@@ -965,13 +965,13 @@ async function handlePostToTumblr() {
         const captionHtml = `<p><strong>${pin.pinTitle}</strong></p><p>${pin.pinDescription}</p><p>👉 <strong>Play Store:</strong> <a href="${pin.destinationUrl}">${pin.destinationUrl}</a></p>`;
         const tumblrShareUrl = `https://www.tumblr.com/widgets/share/tool?posttype=photo&source=${encodeURIComponent(imageUrl)}&content=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(captionHtml)}&clickthru=${encodeURIComponent(pin.destinationUrl)}&tags=${encodeURIComponent(pin.appName + ',DroidV,PrivacyFirst,AndroidApps')}`;
 
-        // Open Tumblr Share Tool in small popup window
-        window.open(tumblrShareUrl, '_blank', 'width=540,height=600');
+        // Open Tumblr Share Tool in separate popup window per pin
+        window.open(tumblrShareUrl, `tumblr_win_${i}`, 'width=560,height=620,resizable=yes,scrollbars=yes');
         postedCount++;
 
         const pct = 50 + Math.round((postedCount / total) * 50);
         updateStatus('Publishing on Tumblr...', `Opened Tumblr Post ${postedCount} of ${total}`, pct, true);
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 1200));
     }
 
     updateStatus('Tumblr Sharing Complete!', `Shared ${postedCount} pins to Tumblr!`, 100, false);
