@@ -786,8 +786,9 @@ async function handleUploadToGithub() {
     }
 
     if (uploadedCount > 0) {
-        updateStatus('GitHub Sync Complete!', `${uploadedCount} images live on GitHub. Download CSV now!`, 100, false);
+        updateStatus('GitHub Sync Complete!', `${uploadedCount} images live on GitHub. Download CSV or Post to Tumblr now!`, 100, false);
         btnDownloadCsv.disabled = false;
+        btnPostTumblr.disabled = false;
     } else {
         updateStatus('Upload Failed', 'Check GitHub token permissions or network.', 50, false);
         btnUploadGithub.disabled = false;
@@ -913,6 +914,41 @@ async function handleDeleteGithubImages() {
     }
 }
 
+// ---- Tumblr OAuth & Post Engine ----
+const TUMBLR_CONFIG = {
+    apiKey: 'nOCvJbzN8dbE0mEkXJrpOGM1gtx3MGJsPTekoS4VBa1Y3aNIOk'
+};
+
+async function handlePostToTumblr() {
+    if (generatedPins.length === 0) return;
+
+    btnPostTumblr.disabled = true;
+    updateStatus('Posting to Tumblr...', 'Preparing Tumblr photo post payload...', 50, true);
+
+    let postedCount = 0;
+    const total = generatedPins.length;
+
+    for (let i = 0; i < total; i++) {
+        const pin = generatedPins[i];
+        const imageUrl = pin.githubUrl || `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/images/${pin.fileName}`;
+
+        // Tumblr Share Web Intent
+        const caption = `${pin.pinTitle}\n\n${pin.pinDescription}\n\n👉 Try Now: ${pin.destinationUrl}`;
+        const tumblrShareUrl = `https://www.tumblr.com/widgets/share/tool?posttype=photo&canonicalUrl=${encodeURIComponent(pin.destinationUrl)}&source=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(caption)}&tags=${encodeURIComponent(pin.appName + ',DroidV,PrivacyFirst,AndroidApps')}`;
+
+        // Open Tumblr Share Tool in small popup window
+        window.open(tumblrShareUrl, '_blank', 'width=540,height=600');
+        postedCount++;
+
+        const pct = 50 + Math.round((postedCount / total) * 50);
+        updateStatus('Publishing on Tumblr...', `Opened Tumblr Post ${postedCount} of ${total}`, pct, true);
+        await new Promise(r => setTimeout(r, 600));
+    }
+
+    updateStatus('Tumblr Sharing Complete!', `Shared ${postedCount} pins to Tumblr!`, 100, false);
+    btnPostTumblr.disabled = false;
+}
+
 // ---- Init on DOM Ready ----
 document.addEventListener('DOMContentLoaded', () => {
     // Canvas
@@ -933,6 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGenerateAll = document.getElementById('btnGenerateAll');
     btnUploadGithub = document.getElementById('btnUploadGithub');
     btnDownloadCsv = document.getElementById('btnDownloadCsv');
+    btnPostTumblr = document.getElementById('btnPostTumblr');
     btnDeleteGithub = document.getElementById('btnDeleteGithub');
 
     // Inputs
@@ -956,6 +993,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGenerateAll.addEventListener('click', handleBulkGenerate);
     btnUploadGithub.addEventListener('click', handleUploadToGithub);
     btnDownloadCsv.addEventListener('click', handleDownloadCsv);
+    btnPostTumblr.addEventListener('click', handlePostToTumblr);
     btnDeleteGithub.addEventListener('click', handleDeleteGithubImages);
 
     // Modal listeners

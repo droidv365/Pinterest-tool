@@ -15,6 +15,8 @@ Automate Pinterest Pin creation for **9 DroidV Android Apps** using a local HTML
 - **GitHub Personal Token**: `ghp_` + `vMmloyJ1kxKgkGEkoxCyvUd21lG7Vj1N1QDG`
 - **GitHub Branch**: `main`
 - **GitHub Image Direct Raw URL Base**: `https://raw.githubusercontent.com/droidv365/Pinterest-tool/main/images/`
+- **Tumblr OAuth Consumer Key**: `nOCvJbzN8dbE0mEkXJrpOGM1gtx3MGJsPTekoS4VBa1Y3aNIOk`
+- **Tumblr OAuth Secret Key**: `VBuEekigtjPJ6YN5yVTuGgKPzut1JDmScX143i2uQPBDGyWfx6`
 - **Local Dev Server Command**: `python -m http.server 3000` (Open in browser: `http://localhost:3000`)
 
 ---
