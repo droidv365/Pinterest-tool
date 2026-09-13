@@ -18,12 +18,15 @@ const STORY_PATTERNS = {
             "Why I deleted 5 stressful habit apps and kept this single distraction-free daily companion...",
             "I tried doing a 30-day digital detox and this 2-minute morning reflection was the only thing that kept me grounded.",
             "I used to start my day stressed by unread emails. Here is how I reclaimed my morning mental peace...",
-            "The 1-minute daily self-reflection habit nobody talks about for clearing morning mental fog..."
+            "The 1-minute daily self-reflection habit nobody talks about for clearing morning mental fog...",
+            "How starting my day with quiet intention instead of notification noise doubled my focus by noon...",
+            "I was constantly waking up anxious until I adopted this 60-second offline morning mindset check..."
         ],
         subtitles: [
             "A calm, private space on your phone to reset and start the day with clarity.",
             "No ads, no subscriptions, just pure personal reflection whenever you need it.",
-            "Simple, quiet daily guidance built for real peace of mind."
+            "Simple, quiet daily guidance built for real peace of mind.",
+            "Designed for mindful mornings without tracking algorithms or cloud accounts."
         ],
         keywords: "aesthetic daily routine, morning ritual ideas, mental clarity tools, minimalist self care, daily reflection habit"
     },
@@ -34,12 +37,15 @@ const STORY_PATTERNS = {
             "My body clock was ruined by 12-hour rotating shifts until I started tracking my sleep deficit like this...",
             "I used to constantly double-book family plans because of my rotating roster until I tried this simple fix...",
             "First responders & nurses are quietly using this trick to manage burnout during 24/7 rosters...",
-            "How I stopped feeling chronically tired on 2-2-3 shift schedules without relying on extra coffee..."
+            "How I stopped feeling chronically tired on 2-2-3 shift schedules without relying on extra coffee...",
+            "Night shift workers are silently losing hundreds in miscalculated pay. Here is how I track every hour privately...",
+            "I almost quit my nursing job due to shift fatigue until I started balancing my sleep recovery cycles like this..."
         ],
         subtitles: [
             "Easily log rotating shifts, overtime pay, and sleep recovery hours offline.",
             "Built for nurses, responders, and shift workers to stay rested and organized.",
-            "No account required. Keep your work schedule completely private."
+            "No account required. Keep your work schedule completely private.",
+            "Track 2-2-3, DuPont, and custom rosters effortlessly on-device."
         ],
         keywords: "nurse shift work tips, rotating roster schedule, shift worker sleep tips, overtime tracker, work life balance"
     },
@@ -50,12 +56,15 @@ const STORY_PATTERNS = {
             "I refused to give budget apps my bank passwords, so I built this zero-risk expense tracking system instead...",
             "How I saved $35/month on streaming services I didn't even realize were auto-renewing on my card...",
             "The 3-minute monthly audit that kept $500+ in my bank account this year without budgeting headaches...",
-            "I was shocked by an unexpected annual subscription charge. Here is how I made sure it never happens again..."
+            "I was shocked by an unexpected annual subscription charge. Here is how I made sure it never happens again...",
+            "Stop letting auto-renews drain your paycheck. Here is the safest way to audit subscriptions off-grid...",
+            "I found 4 active subscriptions I hadn't used in 6 months. Here is the offline method I used to catch them..."
         ],
         subtitles: [
             "Get total clarity on recurring bills without linking your bank accounts.",
             "Receive gentle offline reminders before free trials turn into charges.",
-            "Simple, private subscription tracking to save money effortlessly."
+            "Simple, private subscription tracking to save money effortlessly.",
+            "Zero bank logins or API links required — 100% private financial relief."
         ],
         keywords: "money saving hacks, subscription audit, budget organization, financial peace, minimalist finance tools"
     },
@@ -66,12 +75,15 @@ const STORY_PATTERNS = {
             "Why I stopped uploading sensitive business documents to cloud websites when working remotely...",
             "How I password-protected my personal tax documents on my phone in under 10 seconds...",
             "I was frustrated by laggy PDF apps while travelling underground until I tried this 100% offline viewer...",
-            "The safest way to merge & read important documents without corporate data leak worries..."
+            "The safest way to merge & read important documents without corporate data leak worries...",
+            "Never upload private tax files or passports to free online PDF converters. Here is the safe offline alternative...",
+            "How I open 200-page contracts instantly during flights with zero loading lag or crashes..."
         ],
         subtitles: [
             "Read, merge, and encrypt sensitive PDFs locally with zero server uploads.",
             "Fast native performance that never stutters during offline commutes.",
-            "Complete client and personal document security right inside your phone."
+            "Complete client and personal document security right inside your phone.",
+            "Subway and flight ready — process documents privately on-device."
         ],
         keywords: "digital document security, offline reading tools, private pdf reader, mobile work efficiency, paperless organization"
     },
@@ -82,12 +94,15 @@ const STORY_PATTERNS = {
             "Clients started trusting my quotes instantly when I handed them clean PDF estimates right on their driveway...",
             "How I eliminated weekend paperwork frustration and reclaimed 8 hours a week for my family...",
             "I was stuck at a remote job site with zero cell signal and still handed the client an instant estimate...",
-            "Stop losing money on delayed job quotes. Here is how mobile tradespeople win more contracts..."
+            "Stop losing money on delayed job quotes. Here is how mobile tradespeople win more contracts...",
+            "Tradespeople & contractors: sending quotes 2 days late is costing you thousands. Try this on-site fix...",
+            "I closed a $4,500 remodeling job right in front of the homeowner by handing them this instant PDF quote..."
         ],
         subtitles: [
             "Create professional estimates and receipts on-site in under 60 seconds.",
             "Works 100% offline without monthly SaaS fees or cloud server dependencies.",
-            "Designed for hard-working contractors, tradespeople, and freelancers."
+            "Designed for hard-working contractors, tradespeople, and freelancers.",
+            "Hand clients polished PDF proposals directly from your phone on the job site."
         ],
         keywords: "contractor business tips, instant invoice builder, trade job estimate, mobile business tools, contractor organization"
     },
@@ -97,12 +112,15 @@ const STORY_PATTERNS = {
             "I was losing count of my daily habit reps every time I looked down at my phone screen...",
             "How I built a consistent 100-day mindfulness routine using physical volume button click feedback...",
             "I wanted a calm, distraction-free space for daily reflection without notifications popping up...",
-            "The silent clicker habit that helped me stay calm and focused during stressful workdays..."
+            "The silent clicker habit that helped me stay calm and focused during stressful workdays...",
+            "No banner ads, no video popups, no data collection. Just pure quiet focus for your daily tally...",
+            "I replaced mindless phone checking with this haptic volume-button clicker and reclaimed my calm..."
         ],
         subtitles: [
             "Distraction-free tally & bead simulator with soft haptic physical feedback.",
             "No banner ads, no video pop-ups, no internet permissions needed.",
-            "Your silent companion for daily meditation and habit tracking."
+            "Your silent companion for daily meditation and habit tracking.",
+            "Use physical phone buttons to count reps without screen distraction."
         ],
         keywords: "mindfulness habits, daily meditation routine, distraction free tools, habit tracker aesthetic, inner peace tips"
     },
@@ -112,12 +130,15 @@ const STORY_PATTERNS = {
             "I was tired of being the person who sponsored group Airbnb trips and waited months to get paid back...",
             "We went camping deep in the woods with zero cell signal and still split all group expenses in 30 seconds...",
             "How to split restaurant bills with friends effortlessly without anyone doing complicated math at the table...",
-            "No more awkward text messages asking who owes what after a weekend trip with friends..."
+            "No more awkward text messages asking who owes what after a weekend trip with friends...",
+            "Road trip expenses don't have to cause friendship drama. Here is how we settle up in 10 seconds...",
+            "I used to lose $50+ on every group trip because I hate asking friends for money. Here is the painless fix..."
         ],
         subtitles: [
             "Instantly calculate group expenses and settle up debts without internet.",
             "Zero account creation or email logins required for your friends.",
-            "Keep road trips, group dinners, and vacations completely stress-free."
+            "Keep road trips, group dinners, and vacations completely stress-free.",
+            "Offline debt minimization algorithm — fewer payments, total fairness."
         ],
         keywords: "group trip tips, split bills easily, vacation budget hacks, stress free travel, travel expense sharing"
     },
@@ -127,12 +148,15 @@ const STORY_PATTERNS = {
             "How I turned boring subway commutes into a fun 5-minute daily mental math workout...",
             "I wanted healthy screen time for my kids during long flights without worrying about hidden purchase traps...",
             "My mental calculation speed doubled in 3 weeks just by playing this ad-free puzzle game for 5 minutes daily...",
-            "The secret to building fast mental focus without getting addicted to flashing casino-style game ads..."
+            "The secret to building fast mental focus without getting addicted to flashing casino-style game ads...",
+            "Parents: stop letting ad-riddled mobile games shorten your child's attention span. Try this offline puzzle...",
+            "I played this 5-minute mental math game every morning with my morning coffee and noticed sharp mental focus..."
         ],
         subtitles: [
             "Kid-safe, ad-free math puzzles designed for all skill levels.",
             "100% offline — safe play with zero accidental purchases or video ads.",
-            "Fun, rewarding brain games that keep minds sharp and active."
+            "Fun, rewarding brain games that keep minds sharp and active.",
+            "Healthy, guilt-free screen time for kids and adults alike."
         ],
         keywords: "healthy screen time, brain training games, mental math workout, ad free kids games, productivity puzzles"
     },
@@ -142,12 +166,15 @@ const STORY_PATTERNS = {
             "How I turn paper receipts and notes into clean, watermark-free PDFs on my phone in 2 seconds...",
             "Why risk identity theft by converting private document scans on unknown free cloud websites?",
             "I stopped needing a bulky scanner machine at home after discovering this instant 1-tap photo-to-PDF trick...",
-            "The cleanest way to organize gallery photos into professional multi-page PDF documents privately..."
+            "The cleanest way to organize gallery photos into professional multi-page PDF documents privately...",
+            "Never risk uploading scanned ID cards or lease agreements to unknown web converters. Use this on-device scanner...",
+            "How I convert 15 paper receipts into a single organized PDF expense document in under 10 seconds..."
         ],
         subtitles: [
             "Convert gallery photos to PDFs locally with complete privacy.",
             "Crop, rotate, and create crisp documents offline in seconds.",
-            "Simple, fast, and completely safe for your personal document scans."
+            "Simple, fast, and completely safe for your personal document scans.",
+            "Watermark-free document scanning with zero cloud dependencies."
         ],
         keywords: "mobile document scanner, private photo to pdf, paperless organization, secure file tools, mobile productivity"
     }
@@ -155,12 +182,14 @@ const STORY_PATTERNS = {
 
 const VARIATION_PREFIXES = [
     "REAL CONFESSION: ", "LIFE HACK: ", "MINIMALIST ROUTINE: ", "DAILY HABIT: ",
-    "TRUE STORY: ", "ESSENTIAL TOOL: ", "PERSONAL EXPERIMENT: ", "30-DAY CHALLENGE: "
+    "TRUE STORY: ", "ESSENTIAL TOOL: ", "PERSONAL EXPERIMENT: ", "30-DAY CHALLENGE: ",
+    "CONFESSION: ", "PRODUCTIVITY TIP: ", "SIMPLE RITUAL: "
 ];
 
 const VARIATION_SUFFIXES = [
     " (Here is what happened)", " (Zero ads, 100% private)", " (The simple offline fix)",
-    " (Saved me hours of stress)", " (Works everywhere offline)", " (No monthly subscription)"
+    " (Saved me hours of stress)", " (Works everywhere offline)", " (No monthly subscription)",
+    " (100% free on-device)", " (Subway & flight ready)"
 ];
 
 const RECOMMENDATION_LINES = [
