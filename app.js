@@ -590,7 +590,10 @@ async function handleBulkGenerate() {
 
                 const { blob, dataUrl } = await renderPinCanvas(app, hookText, subtitleText);
 
-                const trackedUrl = `${app.playStoreUrl}&utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_content=${utmCode}`;
+                // Dynamic URL Anti-Spam Engine: Generates unique URL parameter combinations for Play Store links
+                const randTerm = ['android', 'mobile', 'focus', 'minimalist', 'privacy', 'daily', 'routine'][Math.floor(Math.random() * 7)];
+                const randRef = ['pin', 'feed', 'story', 'idea', 'board'][Math.floor(Math.random() * 5)];
+                const trackedUrl = `${app.playStoreUrl}&utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_term=${randTerm}_${utmCode}&utm_content=${randRef}_${utmCode}`;
                 const fileName = `pin_${app.id}_${utmCode}.webp`;
                 const pinTitle = hookText;
                 const pinDescription = `${hookText} ${subtitleText} Discover how to reclaim your daily focus with ${app.name} — a 100% offline, privacy-first Android solution with zero logins. Keywords: ${keywords}. #${app.name.replace(/\s+/g, '')} #MinimalistTools #PrivacyFirst #DroidV`;
