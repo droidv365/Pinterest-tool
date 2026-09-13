@@ -961,9 +961,9 @@ async function handlePostToTumblr() {
         const pin = generatedPins[i];
         const imageUrl = pin.githubUrl || `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/images/${pin.fileName}`;
 
-        // Tumblr Share Web Intent
-        const caption = `${pin.pinTitle}\n\n${pin.pinDescription}\n\n👉 Try Now: ${pin.destinationUrl}`;
-        const tumblrShareUrl = `https://www.tumblr.com/widgets/share/tool?posttype=photo&canonicalUrl=${encodeURIComponent(pin.destinationUrl)}&source=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(caption)}&tags=${encodeURIComponent(pin.appName + ',DroidV,PrivacyFirst,AndroidApps')}`;
+        // Guaranteed Tumblr Photo Post Format with Embedded Image + Caption
+        const captionHtml = `<p><strong>${pin.pinTitle}</strong></p><p>${pin.pinDescription}</p><p>👉 <strong>Play Store:</strong> <a href="${pin.destinationUrl}">${pin.destinationUrl}</a></p>`;
+        const tumblrShareUrl = `https://www.tumblr.com/widgets/share/tool?posttype=photo&source=${encodeURIComponent(imageUrl)}&content=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(captionHtml)}&clickthru=${encodeURIComponent(pin.destinationUrl)}&tags=${encodeURIComponent(pin.appName + ',DroidV,PrivacyFirst,AndroidApps')}`;
 
         // Open Tumblr Share Tool in small popup window
         window.open(tumblrShareUrl, '_blank', 'width=540,height=600');
