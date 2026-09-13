@@ -60,9 +60,10 @@ Automate Pinterest Pin creation for **9 DroidV Android Apps** using a local HTML
 - **Personal Recommendation & Micro-Story Overlay**: Each pin image includes a subtle gold personal experience line (e.g. *"💡 I tested 10+ paid store apps before finding this zero-ad offline tool. Linked below!"*, *"⭐ Tired of $10/mo subscriptions? This Play Store app works 100% free offline."*).
 - **Soft CTA Button**: Always use curiosity-driven soft CTA: `Read Full Story & Solution ➔`. Never say "Download Now".
 
-### 2. 100% Dynamic Content Combinations & Zero Duplicates
-- **Combinatorial Engine**: Dynamically combine storytelling hooks, subtitles, prefixes (`REAL CONFESSION:`, `LIFE HACK:`, `DAILY HABIT:`), and suffixes for infinite unique pins across runs.
-- **Persistent Seed History**: Use `localStorage` seed counter (`001`, `002`, `003`...) so filenames (`pin_astroguide_001.webp`) and UTM URLs (`utm_content=001`) NEVER repeat across sessions.
+### 2. 100% Dynamic Content Combinations & Zero Duplicates (STRICT PERMANENT RULE)
+- **Zero-Duplicate Title Guarantee**: Every Pin Title MUST include a unique app identifier & UTM seed suffix (e.g. `[Hook Text] (App Name #001)`) so Pinterest Bulk Uploader never throws a "Multiple rows with the same title" error.
+- **Combinatorial Engine**: Dynamically combine storytelling hooks, subtitles, prefixes (`REAL CONFESSION:`, `LIFE HACK:`, `DAILY HABIT:`), suffixes, and micro-story recommendation lines for infinite unique pins across runs.
+- **Persistent Seed History**: Use `localStorage` seed counter (`001`, `002`, `003`...) so filenames (`pin_astroguide_001.webp`), Pin Titles, and UTM URLs (`utm_content=001`) NEVER repeat across sessions.
 
 ### 3. Apple Minimalist Aesthetic & Clean UI Framework
 - **2:3 Vertical Images (1000x1500px)**: Modern Apple/Glassmorphic dark UI cards, premium gradients, zero cheap/flashy elements.
