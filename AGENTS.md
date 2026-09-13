@@ -76,6 +76,12 @@ Automate Pinterest Pin creation for **9 DroidV Android Apps** using a local HTML
 - **Landing Page Redirect**: Link to `https://droidv.vercel.app/apps/...` landing pages or tracked Play Store links with clean UTM tags (`utm_source=pinterest&utm_medium=social&utm_campaign=pinterest_bulk&utm_content=001`).
 - **Long-Tail SEO**: Include Pinterest SEO descriptions with long-tail keywords (e.g., *aesthetic habit tracker apps*, *minimalist focus tools*, *nurse shift work tips*).
 
+### 5. 2026 Viral SEO Strategy (Pinterest & Tumblr Algorithm Formula)
+- **Visual Search Engine Core**: Pinterest & Tumblr rely on visual search + text keywords, not traditional social media algorithms.
+- **Long-Tail Keyword Stacking**: Every pin description MUST stack 4-5 high-volume search phrases (e.g. *aesthetic daily routine*, *nurse shift work tips*, *money saving hacks*, *paperless document security*).
+- **Hashtag Clustering**: Use 3-5 high-conversion hashtags per post (`#MinimalistTools #PrivacyFirst #DroidV #[AppName]`).
+- **Open-Graph Keywords**: Clean title + description alignment so Google Visual Search indexes pins in Google Images.
+
 ---
 
 ## 🚀 Quick Terminal Command Reminder
