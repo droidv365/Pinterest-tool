@@ -609,8 +609,9 @@ async function handleBulkGenerate() {
                 const randRef = ['pin', 'feed', 'story', 'idea', 'board'][Math.floor(Math.random() * 5)];
                 const trackedUrl = `${app.playStoreUrl}&utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_term=${randTerm}_${utmCode}&utm_content=${randRef}_${utmCode}`;
                 const fileName = `pin_${app.id}_${utmCode}.webp`;
-                const pinTitle = hookText;
-                const pinDescription = `${hookText} ${subtitleText} Discover how to reclaim your daily focus with ${app.name} — a 100% offline, privacy-first Android solution with zero logins. Keywords: ${keywords}. #${app.name.replace(/\s+/g, '')} #MinimalistTools #PrivacyFirst #DroidV`;
+                // Guarantee 100% unique title for Pinterest Bulk Uploader to avoid "Multiple rows with the same title" error
+                const pinTitle = `${hookText} (${app.name} #${utmCode})`;
+                const pinDescription = `${hookText} ${subtitleText} ${microStory} Discover how to reclaim your daily focus with ${app.name} — a 100% offline, privacy-first Android solution with zero logins. Keywords: ${keywords}. #${app.name.replace(/\s+/g, '')} #MinimalistTools #PrivacyFirst #DroidV`;
 
                 const pinItem = {
                     id: runIndex,
