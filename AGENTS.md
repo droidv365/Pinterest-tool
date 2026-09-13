@@ -28,25 +28,25 @@ Automate Pinterest Pin creation for **9 DroidV Android Apps** using a local HTML
    - Play Store: `https://play.google.com/store/apps/details?id=com.shiftsync.workcalendar`
 3. **SubVault** (Subscription Manager & Money Relief)
    - Logo: `./Logo/Offline Subscription Tracker.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.subvault.subscription.tracker`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.subscription.tracker.manager`
 4. **PDF Viewer** (Peace of Mind & Local Encryption)
    - Logo: `./Logo/PDF Viewer & Reader Offline.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.pdfviewer.offline.reader`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.pdf.reader.viewer.document.offline.app`
 5. **Estimate Maker** (Invoice & Job-Site Proposal)
    - Logo: `./Logo/Invoice & Estimate Maker App.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.estimatemaker.invoicing.receipt`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.offline.estimatemaker.quotegenerator`
 6. **Digital Counter** (Inner Peace & Habit Tally)
    - Logo: `./Logo/Spiritual Tally Counter.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.digitalcounter.tally.japamala`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.spiritual.japamala.tally.tasbih.chanting.counter`
 7. **Bill Splitter** (Stress-Free Group Expenses)
    - Logo: `./Logo/SplitApp Easy Bill Splitter.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.billsplitter.group.expenses`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.appvanta.billsplitter`
 8. **Math Game** (Healthy Screen Time & Brain Building)
    - Logo: `./Logo/Cool Math Game Offline Math.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.mathgame.kids.puzzle.offline`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.cool.math.game.puzzle.learning`
 9. **Image to PDF** (Instant Photo-to-PDF Conversion)
    - Logo: `./Logo/Image to PDF Converter.webp`
-   - Play Store: `https://play.google.com/store/apps/details?id=com.imagetopdf.converter.offline`
+   - Play Store: `https://play.google.com/store/apps/details?id=com.imagetopdf.pdfconverter.jpgtopdf.editor`
 
 ---
 

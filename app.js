@@ -223,7 +223,7 @@ const APPS_DATABASE = [
         name: 'SubVault',
         category: 'Financial Freedom & Relief',
         logoPath: './Logo/Offline Subscription Tracker.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.subvault.subscription.tracker',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.subscription.tracker.manager',
         landingUrl: 'https://droidv.vercel.app/apps/subvault/index.html',
         bgGradients: [
             ['#064e3b', '#047857', '#0f172a'],
@@ -238,7 +238,7 @@ const APPS_DATABASE = [
         name: 'PDF Viewer',
         category: 'Peace of Mind & Focus',
         logoPath: './Logo/PDF Viewer & Reader Offline.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.pdfviewer.offline.reader',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.pdf.reader.viewer.document.offline.app',
         landingUrl: 'https://droidv.vercel.app/apps/pdf-viewer/index.html',
         bgGradients: [
             ['#1e1e2e', '#2a2a40', '#11111b'],
@@ -253,7 +253,7 @@ const APPS_DATABASE = [
         name: 'Estimate Maker',
         category: 'Business Growth & Time Saved',
         logoPath: './Logo/Invoice & Estimate Maker App.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.estimatemaker.invoicing.receipt',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.offline.estimatemaker.quotegenerator',
         landingUrl: 'https://droidv.vercel.app/apps/estimate-maker/index.html',
         bgGradients: [
             ['#451a03', '#78350f', '#0f172a'],
@@ -268,7 +268,7 @@ const APPS_DATABASE = [
         name: 'Digital Counter',
         category: 'Inner Peace & Habits',
         logoPath: './Logo/Spiritual Tally Counter.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.digitalcounter.tally.japamala',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.spiritual.japamala.tally.tasbih.chanting.counter',
         landingUrl: 'https://droidv.vercel.app/apps/counter-app/index.html',
         bgGradients: [
             ['#4a1d96', '#5b21b6', '#0f172a'],
@@ -283,7 +283,7 @@ const APPS_DATABASE = [
         name: 'Bill Splitter',
         category: 'Stress-Free Friendships',
         logoPath: './Logo/SplitApp Easy Bill Splitter.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.billsplitter.group.expenses',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.appvanta.billsplitter',
         landingUrl: 'https://droidv.vercel.app/apps/bill-splitter/index.html',
         bgGradients: [
             ['#0369a1', '#0284c7', '#0f172a'],
@@ -298,7 +298,7 @@ const APPS_DATABASE = [
         name: 'Math Game',
         category: 'Confident Brain Building',
         logoPath: './Logo/Cool Math Game Offline Math.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.mathgame.kids.puzzle.offline',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.cool.math.game.puzzle.learning',
         landingUrl: 'https://droidv.vercel.app/apps/math-game/index.html',
         bgGradients: [
             ['#854d0e', '#a16207', '#0f172a'],
@@ -313,7 +313,7 @@ const APPS_DATABASE = [
         name: 'Image to PDF',
         category: 'Instant Convenience',
         logoPath: './Logo/Image to PDF Converter.webp',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.imagetopdf.converter.offline',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.imagetopdf.pdfconverter.jpgtopdf.editor',
         landingUrl: 'https://droidv.vercel.app/apps/image-to-pdf/index.html',
         bgGradients: [
             ['#1e293b', '#334155', '#0f172a'],
