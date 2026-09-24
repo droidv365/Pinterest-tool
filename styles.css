@@ -112,7 +112,8 @@ body {
     color: #d1d5db;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     background: #1a233a;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
@@ -124,7 +125,12 @@ body {
     transition: border-color 0.2s;
 }
 
-.form-group input:focus {
+.form-group select {
+    cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus {
     border-color: var(--accent-blue);
 }
 
@@ -167,6 +173,17 @@ body {
 
 .btn-primary:hover:not(:disabled) {
     background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.btn-droidv {
+    background: linear-gradient(135deg, #0284c7, #7c3aed);
+    color: white;
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+}
+
+.btn-droidv:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0369a1, #6d28d9);
     transform: translateY(-1px);
 }
 
@@ -342,17 +359,19 @@ body {
 /* Pin Preview Card */
 .pin-card {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .pin-card:hover {
-    transform: translateY(-4px);
-    border-color: #3b82f6;
+    transform: translateY(-6px) scale(1.01);
+    border-color: rgba(230, 0, 35, 0.6);
+    box-shadow: 0 12px 30px rgba(230, 0, 35, 0.25), 0 0 15px rgba(56, 189, 248, 0.15);
 }
 
 .pin-img-wrapper {
@@ -560,5 +579,38 @@ body {
     font-size: 13px;
     font-weight: 700;
     color: var(--text-muted);
+}
+
+/* Mode Tabs */
+.mode-tabs {
+    display: flex;
+    gap: 8px;
+    background: #090e17;
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--text-main);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: white;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
 }
 

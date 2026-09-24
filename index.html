@@ -21,13 +21,65 @@
                 </div>
             </div>
 
-            <div class="control-section">
+            <div class="mode-tabs">
+                <button id="tabCustomStories" class="tab-btn active">🔥 Custom BG Stories (droidv.com)</button>
+                <button id="tabAppsEngine" class="tab-btn">📱 9 Apps Engine</button>
+            </div>
+
+            <!-- Custom Stories Panel (Simple & Direct) -->
+            <div id="customStoriesPanel" class="control-section">
+                <h3>Custom Story Mode</h3>
+                
+                <div class="form-group">
+                    <label for="customStoryCount">Stories Quantity to Generate (Max 500):</label>
+                    <input type="number" id="customStoryCount" value="50" min="1" max="500">
+                    <small class="help-text">Set how many custom story pins to render (1 to 500 stories database).</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="customBgFileInput">Optional: Select Local BG Images (Any Folder):</label>
+                    <input type="file" id="customBgFileInput" multiple accept="image/*" style="font-size: 12px; color: #94a3b8; background: #0f172a; padding: 8px; border-radius: 8px; border: 1px solid #334155;">
+                    <small class="help-text">Or leave empty to auto-load images from bg_images/[feature]/ folders.</small>
+                </div>
+
+                <button id="btnGenerateCustomStories" class="btn btn-droidv" style="background: linear-gradient(135deg, #0284c7, #38bdf8); border-color: #38bdf8; font-size: 14px; padding: 14px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    🔥 Generate Custom BG Story Pins
+                </button>
+            </div>
+
+            <!-- Standard Apps Panel -->
+            <div id="appsEnginePanel" class="control-section" style="display: none;">
                 <h3>Generator Settings</h3>
                 
                 <div class="form-group">
-                    <label for="pinsPerApp">Pins per App (Total 9 Apps):</label>
+                    <label for="pinStrategyMode">Pin Strategy Mode:</label>
+                    <select id="pinStrategyMode">
+                        <option value="organic_search" selected>Option 2: Organic Search Brand Mode (No Link + droidv.com Search Watermark)</option>
+                        <option value="direct_link">Option 1: Direct Link Pins (Includes URLs in CSV)</option>
+                    </select>
+                    <small class="help-text">Option 2 removes URLs from CSV & renders "🔍 Search droidv.com on Google" on images for viral organic search reach.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageThemeSelect">Visual Canvas Theme:</label>
+                    <select id="imageThemeSelect">
+                        <option value="reddit_viral" selected>Theme A: Reddit Viral Dark Glass (Search Brand Focus)</option>
+                        <option value="apple_minimal">Theme B: Modern Apple Minimalist Dark</option>
+                        <option value="bold_neon">Theme C: Premium Electric Gradient</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="droidvStoryCount">DroidV Organic Stories to Generate (Max 55):</label>
+                    <input type="number" id="droidvStoryCount" value="55" min="1" max="55">
+                    <small class="help-text">Set how many DroidV Organic Search stories to generate (1 to 55 articles)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="pinsPerApp">Pins per App (9 Android Apps):</label>
                     <input type="number" id="pinsPerApp" value="2" min="1" max="10">
-                    <small class="help-text">e.g. 2 per app = 18 Unique Pins total</small>
+                    <small class="help-text">e.g. 2 per app = 18 Unique App Pins</small>
                 </div>
 
                 <div class="form-group">
@@ -44,14 +96,24 @@
                     <label for="githubRepo">GitHub Target Repo:</label>
                     <input type="text" id="githubRepo" value="droidv365/Pinterest-tool" readonly>
                 </div>
+
+                <button id="btnGenerateOrganicSearch" class="btn btn-droidv" style="background: linear-gradient(135deg, #0284c7, #38bdf8); border-color: #38bdf8;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    🔥 Generate No-Link Organic Search Pins (droidv.com)
+                </button>
+
+                <button id="btnGenerateApps" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    📱 Generate 9 Android Apps Pins
+                </button>
+
+                <button id="btnGenerateDroidVWeb" class="btn btn-secondary" style="background: #1e293b; color: #94a3b8; border: 1px solid #334155;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1a2 2 0 0 0 2 2h2v1.93zm6.9-2.54A8 8 0 0 0 13 4.07V5a2 2 0 0 1-2 2h-1v2h4a1 1 0 0 1 1 1v3h1.8a1 1 0 0 1 .9 1.41z"/></svg>
+                    🌐 Generate DroidV Direct Link Pins
+                </button>
             </div>
 
             <div class="control-section action-buttons">
-                <button id="btnGenerateAll" class="btn btn-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                    1-Click Bulk Generate All
-                </button>
-
                 <button id="btnUploadGithub" class="btn btn-github" disabled>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                     Upload Images to GitHub
@@ -62,10 +124,6 @@
                     Download Pinterest CSV
                 </button>
 
-                <button id="btnPostTumblr" class="btn btn-tumblr" disabled>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14.563 24c-5.093 0-7.09-2.686-7.09-6.496v-7.14H4.551V6.52c4.156-1.585 5.568-5.385 5.795-6.52h3.94v5.82h5.167v4.544h-5.167v6.368c0 1.956.883 2.916 2.766 2.916h2.4v4.352h-4.89z"/></svg>
-                    1-Click Post to Tumblr
-                </button>
 
                 <button id="btnDeleteGithub" class="btn btn-danger">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
@@ -135,6 +193,19 @@
     <div style="display: none;">
         <canvas id="pinCanvas" width="1000" height="1500"></canvas>
     </div>
+
+    <!-- Modular App Story Databases -->
+    <script src="stories/custom_stories.js"></script>
+    <script src="stories/astroguide.js"></script>
+    <script src="stories/shiftsync.js"></script>
+    <script src="stories/subvault.js"></script>
+    <script src="stories/pdfviewer.js"></script>
+    <script src="stories/estimates.js"></script>
+    <script src="stories/counter.js"></script>
+    <script src="stories/billsplitter.js"></script>
+    <script src="stories/mathgame.js"></script>
+    <script src="stories/imagetopdf.js"></script>
+    <script src="stories/droidv.js"></script>
 
     <script src="app.js"></script>
 </body>

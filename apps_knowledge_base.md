@@ -105,7 +105,8 @@
 ---
 
 ## 🔒 Strict Uniqueness Guarantee Rules
-- **No Duplicate Content**: Titles, hooks, subtitles, and backgrounds must be randomized and dynamically paired so no two generated pins have identical text or visual styling.
+- **No Duplicate Content**: Titles, hooks, subtitles, prefixes, suffixes, and backgrounds are randomized and dynamically paired so no two generated pins have identical text or visual styling.
+- **100+ Tier-1 Storytelling Hooks Per App**: Over 900 total human open-loop story hooks (100+ per app) embedded in `app.js` with 20 prefixes, 14 suffixes, and 10 micro-story recommendation lines yielding millions of unique combinations.
 - **Dynamic Content Engine**: Uses permutation arrays and combination algorithms in `app.js` to ensure endless unique pin content generation across bulk runs.
 
 ---

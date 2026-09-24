@@ -3,206 +3,90 @@
 // Persistent Seed History | Zero Duplicate Content | WebP Export
 // ============================================================
 
+// Canvas Polyfill for CanvasRenderingContext2D.prototype.roundRect (browser compatibility)
+if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, radii) {
+        let r = 0;
+        if (typeof radii === 'number') r = radii;
+        else if (Array.isArray(radii)) r = radii[0] || 0;
+        this.beginPath();
+        this.moveTo(x + r, y);
+        this.arcTo(x + w, y, x + w, y + h, r);
+        this.arcTo(x + w, y + h, x, y + h, r);
+        this.arcTo(x, y + h, x, y, r);
+        this.arcTo(x, y, x + w, y, r);
+        this.closePath();
+        return this;
+    };
+}
+
 // ---- Utility Helpers ----
 function getRandomItem(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
 // ---- Dynamic Storytelling & Reverse Psychology Generator ----
-const STORY_PATTERNS = {
-    astroguide: {
-        hooks: [
-            "My screen time dropped by 40% when I replaced social media scrolling with this 2-minute morning habit...",
-            "I stopped checking anxiety-inducing news every morning and started doing this 1-minute daily ritual instead.",
-            "I was feeling overwhelmed and directionless every Sunday night until I discovered this quiet self-reflection method...",
-            "Why I deleted 5 stressful habit apps and kept this single distraction-free daily companion...",
-            "I tried doing a 30-day digital detox and this 2-minute morning reflection was the only thing that kept me grounded.",
-            "I used to start my day stressed by unread emails. Here is how I reclaimed my morning mental peace...",
-            "The 1-minute daily self-reflection habit nobody talks about for clearing morning mental fog...",
-            "How starting my day with quiet intention instead of notification noise doubled my focus by noon...",
-            "I was constantly waking up anxious until I adopted this 60-second offline morning mindset check..."
-        ],
-        subtitles: [
-            "A calm, private space on your phone to reset and start the day with clarity.",
-            "No ads, no subscriptions, just pure personal reflection whenever you need it.",
-            "Simple, quiet daily guidance built for real peace of mind.",
-            "Designed for mindful mornings without tracking algorithms or cloud accounts."
-        ],
-        keywords: "aesthetic daily routine, morning ritual ideas, mental clarity tools, minimalist self care, daily reflection habit"
-    },
-    shiftsync: {
-        hooks: [
-            "I was constantly exhausted working rotating night shifts until I fixed my sleep recovery routine with this...",
-            "How I stopped losing money on miscalculated overtime hours without keeping paper scraps...",
-            "My body clock was ruined by 12-hour rotating shifts until I started tracking my sleep deficit like this...",
-            "I used to constantly double-book family plans because of my rotating roster until I tried this simple fix...",
-            "First responders & nurses are quietly using this trick to manage burnout during 24/7 rosters...",
-            "How I stopped feeling chronically tired on 2-2-3 shift schedules without relying on extra coffee...",
-            "Night shift workers are silently losing hundreds in miscalculated pay. Here is how I track every hour privately...",
-            "I almost quit my nursing job due to shift fatigue until I started balancing my sleep recovery cycles like this..."
-        ],
-        subtitles: [
-            "Easily log rotating shifts, overtime pay, and sleep recovery hours offline.",
-            "Built for nurses, responders, and shift workers to stay rested and organized.",
-            "No account required. Keep your work schedule completely private.",
-            "Track 2-2-3, DuPont, and custom rosters effortlessly on-device."
-        ],
-        keywords: "nurse shift work tips, rotating roster schedule, shift worker sleep tips, overtime tracker, work life balance"
-    },
-    subvault: {
-        hooks: [
-            "I checked my bank statement and realized I lost $420 last year to forgotten free trial subscriptions...",
-            "My monthly expenses were leaking money everywhere until I spent 3 minutes organizing my recurring bills like this...",
-            "I refused to give budget apps my bank passwords, so I built this zero-risk expense tracking system instead...",
-            "How I saved $35/month on streaming services I didn't even realize were auto-renewing on my card...",
-            "The 3-minute monthly audit that kept $500+ in my bank account this year without budgeting headaches...",
-            "I was shocked by an unexpected annual subscription charge. Here is how I made sure it never happens again...",
-            "Stop letting auto-renews drain your paycheck. Here is the safest way to audit subscriptions off-grid...",
-            "I found 4 active subscriptions I hadn't used in 6 months. Here is the offline method I used to catch them..."
-        ],
-        subtitles: [
-            "Get total clarity on recurring bills without linking your bank accounts.",
-            "Receive gentle offline reminders before free trials turn into charges.",
-            "Simple, private subscription tracking to save money effortlessly.",
-            "Zero bank logins or API links required — 100% private financial relief."
-        ],
-        keywords: "money saving hacks, subscription audit, budget organization, financial peace, minimalist finance tools"
-    },
-    pdfviewer: {
-        hooks: [
-            "I almost leaked a confidential work contract to an online converter before I realized the security risk...",
-            "My phone used to freeze every time I opened heavy tax PDFs during flights until I switched to this reader...",
-            "Why I stopped uploading sensitive business documents to cloud websites when working remotely...",
-            "How I password-protected my personal tax documents on my phone in under 10 seconds...",
-            "I was frustrated by laggy PDF apps while travelling underground until I tried this 100% offline viewer...",
-            "The safest way to merge & read important documents without corporate data leak worries...",
-            "Never upload private tax files or passports to free online PDF converters. Here is the safe offline alternative...",
-            "How I open 200-page contracts instantly during flights with zero loading lag or crashes..."
-        ],
-        subtitles: [
-            "Read, merge, and encrypt sensitive PDFs locally with zero server uploads.",
-            "Fast native performance that never stutters during offline commutes.",
-            "Complete client and personal document security right inside your phone.",
-            "Subway and flight ready — process documents privately on-device."
-        ],
-        keywords: "digital document security, offline reading tools, private pdf reader, mobile work efficiency, paperless organization"
-    },
-    estimates: {
-        hooks: [
-            "I was losing 3 out of 5 contractor jobs because I took days to send quotes. Then I changed one thing...",
-            "I stopped spending 2 hours every evening typing manual invoices at home after long workdays...",
-            "Clients started trusting my quotes instantly when I handed them clean PDF estimates right on their driveway...",
-            "How I eliminated weekend paperwork frustration and reclaimed 8 hours a week for my family...",
-            "I was stuck at a remote job site with zero cell signal and still handed the client an instant estimate...",
-            "Stop losing money on delayed job quotes. Here is how mobile tradespeople win more contracts...",
-            "Tradespeople & contractors: sending quotes 2 days late is costing you thousands. Try this on-site fix...",
-            "I closed a $4,500 remodeling job right in front of the homeowner by handing them this instant PDF quote..."
-        ],
-        subtitles: [
-            "Create professional estimates and receipts on-site in under 60 seconds.",
-            "Works 100% offline without monthly SaaS fees or cloud server dependencies.",
-            "Designed for hard-working contractors, tradespeople, and freelancers.",
-            "Hand clients polished PDF proposals directly from your phone on the job site."
-        ],
-        keywords: "contractor business tips, instant invoice builder, trade job estimate, mobile business tools, contractor organization"
-    },
-    counter: {
-        hooks: [
-            "My daily meditation practice was ruined by full-screen video ads until I found this quiet sanctuary tool...",
-            "I was losing count of my daily habit reps every time I looked down at my phone screen...",
-            "How I built a consistent 100-day mindfulness routine using physical volume button click feedback...",
-            "I wanted a calm, distraction-free space for daily reflection without notifications popping up...",
-            "The silent clicker habit that helped me stay calm and focused during stressful workdays...",
-            "No banner ads, no video popups, no data collection. Just pure quiet focus for your daily tally...",
-            "I replaced mindless phone checking with this haptic volume-button clicker and reclaimed my calm..."
-        ],
-        subtitles: [
-            "Distraction-free tally & bead simulator with soft haptic physical feedback.",
-            "No banner ads, no video pop-ups, no internet permissions needed.",
-            "Your silent companion for daily meditation and habit tracking.",
-            "Use physical phone buttons to count reps without screen distraction."
-        ],
-        keywords: "mindfulness habits, daily meditation routine, distraction free tools, habit tracker aesthetic, inner peace tips"
-    },
-    billsplitter: {
-        hooks: [
-            "Our group vacation was almost ruined by awkward money arguments at dinner until we used this simple rule...",
-            "I was tired of being the person who sponsored group Airbnb trips and waited months to get paid back...",
-            "We went camping deep in the woods with zero cell signal and still split all group expenses in 30 seconds...",
-            "How to split restaurant bills with friends effortlessly without anyone doing complicated math at the table...",
-            "No more awkward text messages asking who owes what after a weekend trip with friends...",
-            "Road trip expenses don't have to cause friendship drama. Here is how we settle up in 10 seconds...",
-            "I used to lose $50+ on every group trip because I hate asking friends for money. Here is the painless fix..."
-        ],
-        subtitles: [
-            "Instantly calculate group expenses and settle up debts without internet.",
-            "Zero account creation or email logins required for your friends.",
-            "Keep road trips, group dinners, and vacations completely stress-free.",
-            "Offline debt minimization algorithm — fewer payments, total fairness."
-        ],
-        keywords: "group trip tips, split bills easily, vacation budget hacks, stress free travel, travel expense sharing"
-    },
-    mathgame: {
-        hooks: [
-            "I replaced my kid's ad-filled mobile games with this 5-minute brain puzzle and saw their confidence skyrocket...",
-            "How I turned boring subway commutes into a fun 5-minute daily mental math workout...",
-            "I wanted healthy screen time for my kids during long flights without worrying about hidden purchase traps...",
-            "My mental calculation speed doubled in 3 weeks just by playing this ad-free puzzle game for 5 minutes daily...",
-            "The secret to building fast mental focus without getting addicted to flashing casino-style game ads...",
-            "Parents: stop letting ad-riddled mobile games shorten your child's attention span. Try this offline puzzle...",
-            "I played this 5-minute mental math game every morning with my morning coffee and noticed sharp mental focus..."
-        ],
-        subtitles: [
-            "Kid-safe, ad-free math puzzles designed for all skill levels.",
-            "100% offline — safe play with zero accidental purchases or video ads.",
-            "Fun, rewarding brain games that keep minds sharp and active.",
-            "Healthy, guilt-free screen time for kids and adults alike."
-        ],
-        keywords: "healthy screen time, brain training games, mental math workout, ad free kids games, productivity puzzles"
-    },
-    imagetopdf: {
-        hooks: [
-            "I almost uploaded my scanned passport and tax photo to a risky online website before realizing the danger...",
-            "How I turn paper receipts and notes into clean, watermark-free PDFs on my phone in 2 seconds...",
-            "Why risk identity theft by converting private document scans on unknown free cloud websites?",
-            "I stopped needing a bulky scanner machine at home after discovering this instant 1-tap photo-to-PDF trick...",
-            "The cleanest way to organize gallery photos into professional multi-page PDF documents privately...",
-            "Never risk uploading scanned ID cards or lease agreements to unknown web converters. Use this on-device scanner...",
-            "How I convert 15 paper receipts into a single organized PDF expense document in under 10 seconds..."
-        ],
-        subtitles: [
-            "Convert gallery photos to PDFs locally with complete privacy.",
-            "Crop, rotate, and create crisp documents offline in seconds.",
-            "Simple, fast, and completely safe for your personal document scans.",
-            "Watermark-free document scanning with zero cloud dependencies."
-        ],
-        keywords: "mobile document scanner, private photo to pdf, paperless organization, secure file tools, mobile productivity"
-    }
-};
+const STORY_PATTERNS = window.STORY_PATTERNS || {};
 
 const VARIATION_PREFIXES = [
     "REAL CONFESSION: ", "LIFE HACK: ", "MINIMALIST ROUTINE: ", "DAILY HABIT: ",
     "TRUE STORY: ", "ESSENTIAL TOOL: ", "PERSONAL EXPERIMENT: ", "30-DAY CHALLENGE: ",
-    "CONFESSION: ", "PRODUCTIVITY TIP: ", "SIMPLE RITUAL: "
+    "CONFESSION: ", "PRODUCTIVITY TIP: ", "SIMPLE RITUAL: ", "UNPOPULAR OPINION: ",
+    "LIFESTYLE RESET: ", "MINDSET SHIFT: ", "FOCUS SECRET: ", "GAME CHANGER: ",
+    "REALITY CHECK: ", "MINIMALIST HACK: ", "LESSON LEARNED: ", "DAILY SANCTUARY: "
 ];
 
 const VARIATION_SUFFIXES = [
     " (Here is what happened)", " (Zero ads, 100% private)", " (The simple offline fix)",
     " (Saved me hours of stress)", " (Works everywhere offline)", " (No monthly subscription)",
-    " (100% free on-device)", " (Subway & flight ready)"
+    " (100% free on-device)", " (Subway & flight ready)", " (100% private & off-grid)",
+    " (No account required)", " (Zero data collection)", " (Instant 60-second fix)",
+    " (Tried & tested)", " (Zero cloud risks)"
 ];
 
 const RECOMMENDATION_LINES = [
     "💡 I tested 10+ paid store apps before finding this zero-ad offline tool. Linked below!",
     "⭐ Tired of $10/mo subscriptions? This Play Store app works 100% free offline.",
     "📱 Most store tools are filled with annoying ads. This simple app fixed that completely.",
-    "✨ Found this hidden gem on the Play Store after trying 8 laggy online readers.",
+    "✨ Found this hidden gem on the Play Store after trying 8 laggy online tools.",
     "🔒 No bank logins or cloud accounts needed. Grab the direct Play Store link below!",
     "🚀 Replaced 3 expensive SaaS apps with this single clean Play Store companion.",
-    "🎯 Tested this for 30 days — zero popup ads, 100% private. Store link attached!"
+    "🎯 Tested this for 30 days — zero popup ads, 100% private. Store link attached!",
+    "🌿 100% offline, zero sub fees, subway ready. Get the official app below!",
+    "🛡️ Privacy-first & ad-free. Download from the Play Store link below!",
+    "🔥 Reclaimed hours of peace every week with this simple Play Store tool. Link below!"
 ];
 
 function getDynamicStoryContent(app) {
+    if (app.id === 'droidv' && window.DROIDV_ARTICLES && window.DROIDV_ARTICLES.length > 0) {
+        let queueIdx = parseInt(localStorage.getItem('droidv_article_queue_idx') || '0', 10);
+        const article = window.DROIDV_ARTICLES[queueIdx % window.DROIDV_ARTICLES.length];
+        
+        // Advance queue to guarantee zero direct duplicate links across runs
+        localStorage.setItem('droidv_article_queue_idx', (queueIdx + 1).toString());
+
+        const data = STORY_PATTERNS['droidv'] || { hooks: ["Private On-Device AI Tools"], subtitles: ["100% Private"], keywords: "droidv ai" };
+        let hookPool = (article && article.hooks && article.hooks.length > 0) ? article.hooks.concat(data.hooks) : data.hooks;
+        let baseHook = getRandomItem(hookPool);
+        let baseSub = getRandomItem(data.subtitles);
+        let microStory = `💡 Private Browser AI: ${article.title}. 100% on-device local processing. Read guide & solution below!`;
+
+        if (Math.random() > 0.4) {
+            baseHook = getRandomItem(VARIATION_PREFIXES) + baseHook;
+        }
+        if (Math.random() > 0.5) {
+            baseHook = baseHook + getRandomItem(VARIATION_SUFFIXES);
+        }
+
+        return { 
+            hook: baseHook, 
+            subtitle: baseSub, 
+            microStory: microStory, 
+            keywords: article.keywords + ", " + data.keywords,
+            article: article
+        };
+    }
+
     const data = STORY_PATTERNS[app.id] || STORY_PATTERNS['astroguide'];
     let baseHook = getRandomItem(data.hooks);
     let baseSub = getRandomItem(data.subtitles);
@@ -362,6 +246,21 @@ const APPS_DATABASE = [
             ['#121b2b', '#223047', '#080d17']
         ],
         badgeText: 'Instant Clean Scans'
+    },
+    {
+        id: 'droidv',
+        name: 'DroidV AI',
+        category: 'Private Web AI Tools',
+        logoPath: './Logo/PDF Viewer & Reader Offline.webp',
+        playStoreUrl: 'https://droidv.com',
+        landingUrl: 'https://droidv.com',
+        bgGradients: [
+            ['#0b101b', '#0f172a', '#1e293b'],
+            ['#070a12', '#0f172a', '#38bdf8'],
+            ['#0b101b', '#1e1b4b', '#0f172a'],
+            ['#050811', '#111827', '#0f172a']
+        ],
+        badgeText: '100% On-Device Client Privacy'
     }
 ];
 
@@ -372,8 +271,8 @@ let currentModalIndex = 0;
 // ---- DOM References (assigned on DOMContentLoaded) ----
 let canvas, ctx;
 let pinsGrid, pinCounter, statusText, statusDetail, progressBar, statusDot;
-let btnGenerateAll, btnUploadGithub, btnDownloadCsv;
-let pinsPerAppInput, utmCampaignInput, boardNameInput;
+let btnGenerateApps, btnGenerateDroidVWeb, btnGenerateOrganicSearch, btnUploadGithub, btnDownloadCsv, btnPostTumblr, btnDeleteGithub;
+let pinsPerAppInput, droidvStoryCountInput, utmCampaignInput, boardNameInput, pinStrategyModeSelect, imageThemeSelect;
 let modalSlider, modalImg, modalBadge, modalTitle, modalDesc, modalUrl, modalCounter;
 let modalClose, sliderPrev, sliderNext;
 
@@ -449,208 +348,969 @@ function fitAndWrapText(ctx2, text, x, y, maxWidth, maxHeight, initialFontSize, 
     return currY;
 }
 
-// ---- Canvas Pin Renderer ----
-async function renderPinCanvas(app, hookText, subtitleText, microStory) {
+// ---- Feature Folder Image Manifest & Loader ----
+const FEATURE_BG_MANIFEST = {
+    medical_bills: [
+        '1 (1).jpeg', '1 (2).jpeg', '1 (3).jpeg', '1 (4).jpeg', '1 (5).jpeg', '1 (6).jpeg', '1 (7).jpeg'
+    ],
+    mortgage_refinance: [
+        '1 (1).jpeg', '1 (2).jpeg', '1 (3).jpeg', '1 (4).jpeg', '1 (5).jpeg', '1 (6).jpeg', '1 (7).jpeg',
+        '1 (8).jpeg', '1 (9).jpeg', '1 (10).jpeg', '1 (11).jpeg', '1 (12).jpeg', '1 (13).jpeg', '1 (14).jpeg',
+        '1 (15).jpeg', '1 (16).jpeg', '1 (17).jpeg'
+    ],
+    legal_contract: [
+        'Business_owner_reading_contract_20260924135008.jpeg',
+        'Business_owner_reading_contract_20260924135012.jpeg',
+        'Business_owner_reading_contract_20260924135015.jpeg',
+        'Business_owner_reading_contract_20260924135018.jpeg',
+        'Entrepreneur_reviewing_legal_doc…_20260924135103.jpeg',
+        'Entrepreneur_reviewing_legal_doc…_20260924135114.jpeg',
+        'Entrepreneur_reviewing_legal_doc…_20260924135116.jpeg',
+        'Entrepreneur_reviewing_legal_doc…_20260924135119.jpeg'
+    ],
+    loan_strategy: [
+        '1 (1).jpeg', '1 (18).jpeg', '1 (19).jpeg', '1 (20).jpeg', '1 (21).jpeg', '1 (22).jpeg',
+        '1 (23).jpeg', '1 (24).jpeg', '1 (25).jpeg', '1 (26).jpeg', '1 (27).jpeg', '1 (28).jpeg',
+        '1 (29).jpeg', '1 (30).jpeg', '1 (31).jpeg', '1 (32).jpeg', '1 (33).jpeg', '1 (34).jpeg',
+        '1 (35).jpeg', '1 (36).jpeg', '1 (37).jpeg'
+    ],
+    tax_deductions: [
+        '1 (1).jpeg', '1 (2).jpeg', '1 (3).jpeg', '1 (4).jpeg', '1 (5).jpeg', '1 (6).jpeg',
+        '1 (7).jpeg', '1 (8).jpeg', '1 (9).jpeg', '1 (10).jpeg', '1 (11).jpeg', '1 (12).jpeg'
+    ]
+};
+
+function normalizeFeatureKey(featureOrCategory) {
+    if (!featureOrCategory) return 'medical_bills';
+    const str = String(featureOrCategory).toLowerCase();
+    if (str.includes('med') || str.includes('health') || str.includes('hospital') || str.includes('er')) return 'medical_bills';
+    if (str.includes('mortgage') || str.includes('real estate') || str.includes('home')) return 'mortgage_refinance';
+    if (str.includes('legal') || str.includes('contract') || str.includes('lease')) return 'legal_contract';
+    if (str.includes('loan') || str.includes('debt') || str.includes('financial')) return 'loan_strategy';
+    if (str.includes('tax') || str.includes('freelanc') || str.includes('business')) return 'tax_deductions';
+    return 'medical_bills';
+}
+
+async function loadFeatureBackgroundImage(featureInput, index = 0) {
+    const feature = normalizeFeatureKey(featureInput);
+    const featureFolder = `bg_images/${feature}/`;
+    
+    // 1. Manifest list priority
+    const manifestList = FEATURE_BG_MANIFEST[feature] || [];
+    if (manifestList.length > 0) {
+        const fileName = manifestList[Math.abs(index) % manifestList.length];
+        const img = await loadImage(featureFolder + fileName);
+        if (img) return img;
+        
+        for (const f of manifestList) {
+            const loaded = await loadImage(featureFolder + f);
+            if (loaded) return loaded;
+        }
+    }
+    
+    // 2. Candidate filename search fallback
+    const candidateFiles = [];
+    for (let i = 1; i <= 40; i++) {
+        candidateFiles.push(`1 (${i}).jpeg`);
+        candidateFiles.push(`1 (${i}).jpg`);
+        candidateFiles.push(`1 (${i}).webp`);
+        candidateFiles.push(`1 (${i}).png`);
+    }
+    const names = ['1', '2', '3', 'bg', 'image', 'photo', 'poster'];
+    const exts = ['.jpeg', '.jpg', '.png', '.webp'];
+    for (const n of names) {
+        for (const e of exts) {
+            candidateFiles.push(n + e);
+        }
+    }
+
+    for (const f of candidateFiles) {
+        const img = await loadImage(featureFolder + f);
+        if (img) return img;
+    }
+
+    // 3. Global fallback to any loaded background folder
+    const fallbackFolders = ['medical_bills', 'mortgage_refinance', 'legal_contract', 'loan_strategy', 'tax_deductions'];
+    for (const fold of fallbackFolders) {
+        const fallbackList = FEATURE_BG_MANIFEST[fold] || [];
+        for (const f of fallbackList) {
+            const img = await loadImage(`bg_images/${fold}/` + f);
+            if (img) return img;
+        }
+    }
+
+    return null;
+}
+
+// ---- Multi-Paragraph Text Wrapper for Story Cards ----
+function fitAndWrapParagraphText(ctx2, fullText, x, y, maxWidth, maxHeight, initialFontSize = 24) {
+    let fontSize = initialFontSize;
+    const rawParagraphs = fullText.split(/\n+/);
+    const paragraphs = rawParagraphs.map(p => p.trim()).filter(p => p.length > 0);
+    let wrappedParagraphs = [];
+
+    while (fontSize >= 13) {
+        ctx2.font = `500 ${fontSize}px "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif`;
+        const lineHeight = Math.round(fontSize * 1.36);
+        const paragraphGap = Math.round(fontSize * 0.55);
+        
+        wrappedParagraphs = [];
+        let totalHeight = 0;
+
+        for (let p = 0; p < paragraphs.length; p++) {
+            const words = paragraphs[p].split(/\s+/);
+
+            let pLines = [];
+            let currentLine = '';
+
+            for (let n = 0; n < words.length; n++) {
+                const testLine = currentLine ? currentLine + ' ' + words[n] : words[n];
+                const metrics = ctx2.measureText(testLine);
+                if (metrics.width > maxWidth && currentLine !== '') {
+                    pLines.push(currentLine);
+                    currentLine = words[n];
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            if (currentLine) pLines.push(currentLine);
+
+            wrappedParagraphs.push(pLines);
+            totalHeight += pLines.length * lineHeight;
+            if (p < paragraphs.length - 1) {
+                totalHeight += paragraphGap;
+            }
+        }
+
+        if (totalHeight <= maxHeight) break;
+        fontSize -= 1;
+    }
+
+    const lineHeight = Math.round(fontSize * 1.36);
+    const paragraphGap = Math.round(fontSize * 0.55);
+    
+    ctx2.font = `500 ${fontSize}px "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif`;
+    ctx2.fillStyle = '#ffffff';
+    ctx2.shadowColor = 'rgba(0, 0, 0, 0.9)';
+    ctx2.shadowBlur = 6;
+    ctx2.shadowOffsetY = 1;
+    ctx2.textAlign = 'left';
+    ctx2.textBaseline = 'top';
+
+    let currY = y;
+    for (let p = 0; p < wrappedParagraphs.length; p++) {
+        const lines = wrappedParagraphs[p];
+        for (const line of lines) {
+            ctx2.fillText(line, x, currY);
+            currY += lineHeight;
+        }
+        if (p < wrappedParagraphs.length - 1) {
+            currY += paragraphGap;
+        }
+    }
+    return currY;
+}
+
+// ---- Canvas Pin Renderer Engine (2026 Tier-1 Glassmorphic & Organic Search Brand Themes) ----
+async function renderPinCanvas(app, hookText, subtitleText, microStory, layoutPresetIndex = 0, strategyMode = 'organic_search', themeSelect = 'reddit_viral') {
     const W = 1000, H = 1500;
     canvas.width = W;
     canvas.height = H;
 
-    // Background gradient
-    const gc = getRandomItem(app.bgGradients);
-    const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, gc[0]);
-    grad.addColorStop(0.55, gc[1]);
-    grad.addColorStop(1, gc[2]);
-    ctx.fillStyle = grad;
+    // Extract Prefix Badge if present (e.g. "REAL CONFESSION: ", "LIFE HACK: ")
+    let badgePrefix = "";
+    let cleanHook = hookText;
+    const prefixMatch = hookText.match(/^([A-Z0-9\s\-]+):\s*(.*)/);
+    if (prefixMatch) {
+        badgePrefix = prefixMatch[1].trim();
+        cleanHook = prefixMatch[2].trim();
+    }
+
+    // 1. Dynamic Background Image or Gradient & Mesh Lighting based on Theme
+    let bgImg = null;
+    if (app.id === 'droidv') {
+        bgImg = await loadFeatureBackgroundImage(app.category || 'medical_bills', layoutPresetIndex);
+    }
+
+    if (bgImg) {
+        const imgAspect = bgImg.width / bgImg.height;
+        const canvasAspect = W / H;
+        let drawW, drawH, drawX, drawY;
+
+        // Scale image 1.35x and anchor to bottom, shifting upper subject 25% upwards into frame above card
+        const scaleFactor = 1.35;
+        if (imgAspect > canvasAspect) {
+            drawH = H * scaleFactor;
+            drawW = drawH * imgAspect;
+        } else {
+            drawW = W * scaleFactor;
+            drawH = drawW / imgAspect;
+        }
+        drawX = (W - drawW) / 2;
+        drawY = H - drawH; // Shift top focal scene 25% upwards
+        ctx.drawImage(bgImg, drawX, drawY, drawW, drawH);
+
+        // Dark Vignette overlay
+        ctx.save();
+        const vignetteGrad = ctx.createLinearGradient(0, 0, 0, H);
+        vignetteGrad.addColorStop(0, 'rgba(5, 8, 16, 0.65)');
+        vignetteGrad.addColorStop(0.25, 'rgba(5, 8, 16, 0.20)');
+        vignetteGrad.addColorStop(0.55, 'rgba(5, 8, 16, 0.50)');
+        vignetteGrad.addColorStop(1, 'rgba(3, 5, 11, 0.95)');
+        ctx.fillStyle = vignetteGrad;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+    } else {
+        let gc = getRandomItem(app.bgGradients);
+        if (themeSelect === 'bold_neon') {
+            gc = ['#050b14', '#0f172a', '#0284c7'];
+        } else if (themeSelect === 'apple_minimal') {
+            gc = ['#0f172a', '#1e293b', '#090d16'];
+        }
+
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, gc[0]);
+        grad.addColorStop(0.5, gc[1]);
+        grad.addColorStop(1, gc[2]);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+    }
+
+    // Dynamic Ambient Mesh Glows (3D Depth)
+    ctx.save();
+    const topGlow = ctx.createRadialGradient(W * 0.8, H * 0.15, 10, W * 0.8, H * 0.15, 550);
+    topGlow.addColorStop(0, strategyMode === 'organic_search' ? 'rgba(56, 189, 248, 0.18)' : 'rgba(255, 255, 255, 0.14)');
+    topGlow.addColorStop(0.5, 'rgba(255, 255, 255, 0.04)');
+    topGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = topGlow;
     ctx.fillRect(0, 0, W, H);
 
-    // Subtle glass highlight
-    ctx.save();
-    const radGrad = ctx.createRadialGradient(W * 0.75, H * 0.08, 0, W * 0.75, H * 0.08, 420);
-    radGrad.addColorStop(0, 'rgba(255,255,255,0.07)');
-    radGrad.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = radGrad;
+    const centerGlow = ctx.createRadialGradient(W * 0.2, H * 0.55, 20, W * 0.2, H * 0.55, 450);
+    centerGlow.addColorStop(0, strategyMode === 'organic_search' ? 'rgba(14, 165, 233, 0.15)' : 'rgba(230, 0, 35, 0.15)');
+    centerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = centerGlow;
     ctx.fillRect(0, 0, W, H);
     ctx.restore();
 
-    // Load logo
-    const appLogo = await loadImage(app.logoPath);
-
-    // Header - logo icon
-    const headerY = 88;
-    if (appLogo) {
+    // ==========================================
+    // Organic Search Watermark Badge (droidv.com)
+    // ==========================================
+    const hasWatermark = (strategyMode === 'organic_search' || themeSelect === 'reddit_viral');
+    
+    if (hasWatermark) {
         ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 20;
-        ctx.shadowOffsetY = 8;
+        const searchY = 35;
+        const searchX = 60;
+        const searchW = 880;
+        const searchH = 56;
+
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.5)';
+        ctx.shadowBlur = 18;
+
+        const sGrad = ctx.createLinearGradient(searchX, searchY, searchX + searchW, searchY);
+        sGrad.addColorStop(0, 'rgba(15, 23, 42, 0.95)');
+        sGrad.addColorStop(1, 'rgba(30, 41, 59, 0.95)');
+        ctx.fillStyle = sGrad;
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(80, headerY, 96, 96, 22);
-        ctx.clip();
-        ctx.drawImage(appLogo, 80, headerY, 96, 96);
+        ctx.roundRect(searchX, searchY, searchW, searchH, 28);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.shadowColor = 'transparent';
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 20px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🔍 GOOGLE SEARCH:', searchX + 24, searchY + searchH / 2);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 22px "Outfit", sans-serif';
+        const searchBrand = app.id === 'droidv' ? '"droidv.com"' : `"${app.name} Play Store"`;
+        ctx.fillText(searchBrand, searchX + 230, searchY + searchH / 2);
+
+        ctx.fillStyle = '#0284c7';
+        ctx.beginPath();
+        ctx.roundRect(searchX + searchW - 130, searchY + 7, 115, searchH - 14, 16);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 15px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Search ➔', searchX + searchW - 72, searchY + searchH / 2);
         ctx.restore();
     }
 
-    // Badge pill
-    ctx.save();
-    ctx.fillStyle = 'rgba(255,255,255,0.13)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(196, headerY + 8, 360, 40, 20);
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = '#e2e8f0';
-    ctx.font = '600 19px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(`DroidV • ${app.badgeText}`, 216, headerY + 34);
-    ctx.restore();
+    // Dynamic vertical positions based on watermark presence to prevent overlap
+    const headerY = hasWatermark ? 115 : 50;
+    const boxY = hasWatermark ? 225 : 160;
+    const boxH = H - boxY - 45;
 
-    // App name
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '800 40px "Outfit", sans-serif';
-    ctx.fillText(app.name, 196, headerY + 88);
-    ctx.restore();
+    // Load App Logo
+    const appLogo = await loadImage(app.logoPath);
 
-    // Glass card body
-    const boxX = 68, boxY = 310, boxW = 864, boxH = 775;
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
-    ctx.shadowBlur = 40;
-    ctx.shadowOffsetY = 20;
-    ctx.fillStyle = 'rgba(10,15,30,0.62)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.16)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(boxX, boxY, boxW, boxH, 34);
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
+    // Select Layout Preset (0, 1, or 2)
+    const preset = layoutPresetIndex % 3;
 
-    // Category accent bar
-    ctx.save();
-    const accGrad = ctx.createLinearGradient(boxX + 48, 0, boxX + 160, 0);
-    accGrad.addColorStop(0, '#e60023');
-    accGrad.addColorStop(1, '#ff4d6d');
-    ctx.fillStyle = accGrad;
-    ctx.beginPath();
-    ctx.roundRect(boxX + 48, boxY + 52, 88, 7, 4);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.58)';
-    ctx.font = '700 20px "Outfit", sans-serif';
-    ctx.fillText(app.category.toUpperCase(), boxX + 152, boxY + 62);
-    ctx.restore();
+    if (preset === 0) {
+        // ==========================================
+        // PRESET 0: Glassmorphism Master Card
+        // ==========================================
+        
+        // Header Bar (Logo + App Title + Star Rating Pill)
+        if (app.id === 'droidv') {
+            ctx.save();
+            ctx.shadowColor = 'rgba(56, 189, 248, 0.6)';
+            ctx.shadowBlur = 24;
+            const dvGrad = ctx.createLinearGradient(70, headerY, 160, headerY + 90);
+            dvGrad.addColorStop(0, '#0f172a');
+            dvGrad.addColorStop(1, '#0284c7');
+            ctx.fillStyle = dvGrad;
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.roundRect(70, headerY, 90, 90, 22);
+            ctx.fill();
+            ctx.stroke();
 
-    // Hook text (large, auto-fitting)
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'left';
-    const hookBottomY = fitAndWrapText(
-        ctx,
-        `"${hookText}"`,
-        boxX + 48, boxY + 148,
-        boxW - 96, 340,
-        42, '800'
-    );
-    ctx.restore();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '800 40px "Outfit", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('DV', 115, headerY + 45);
+            ctx.restore();
+        } else if (appLogo) {
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 24;
+            ctx.shadowOffsetY = 10;
+            ctx.beginPath();
+            ctx.roundRect(70, headerY, 90, 90, 22);
+            ctx.clip();
+            ctx.drawImage(appLogo, 70, headerY, 90, 90);
+            ctx.restore();
+        }
 
-    // Subtitle text
-    ctx.save();
-    ctx.fillStyle = 'rgba(226,232,240,0.88)';
-    ctx.textAlign = 'left';
-    const subBottomY = fitAndWrapText(
-        ctx,
-        subtitleText,
-        boxX + 48, hookBottomY + 36,
-        boxW - 96, 160,
-        26, '500'
-    );
-    ctx.restore();
+        // App Name & Category
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 36px "Outfit", sans-serif';
+        ctx.fillText(app.name, 180, headerY + 45);
 
-    // Relatable Experience Micro-Story Line (Tier-1 Conversion Booster)
-    ctx.save();
-    ctx.fillStyle = '#facc15'; // Soft Gold Accent
-    ctx.textAlign = 'left';
-    fitAndWrapText(
-        ctx,
-        microStory,
-        boxX + 48, subBottomY + 32,
-        boxW - 96, 100,
-        22, '600'
-    );
-    ctx.restore();
+        ctx.fillStyle = 'rgba(255,255,255,0.65)';
+        ctx.font = '600 18px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`${app.category.toUpperCase()} • OFFLINE`, 180, headerY + 75);
+        ctx.restore();
 
-    // CTA button
+        // Top Right Rating Badge
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(680, headerY + 20, 250, 48, 24);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#facc15';
+        ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText('★ 4.9', 700, headerY + 52);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 17px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(' (10k+ Plays)', 755, headerY + 51);
+        ctx.restore();
+
+        // Main Floating Glass Card
+        const boxX = 60, boxW = 880;
+        
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+        ctx.shadowBlur = 50;
+        ctx.shadowOffsetY = 24;
+        
+        const glassGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxW, boxY + boxH);
+        glassGrad.addColorStop(0, 'rgba(15, 23, 42, 0.75)');
+        glassGrad.addColorStop(1, 'rgba(10, 15, 30, 0.88)');
+        ctx.fillStyle = glassGrad;
+        
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, boxW, boxH, 36);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        // Highlight Pill Badge
+        ctx.save();
+        const badgeTextToShow = badgePrefix ? `⚡ ${badgePrefix}` : `✨ ${app.badgeText.toUpperCase()}`;
+        const pillGrad = ctx.createLinearGradient(boxX + 50, 0, boxX + 400, 0);
+        pillGrad.addColorStop(0, '#e60023');
+        pillGrad.addColorStop(1, '#ff4d6d');
+        ctx.fillStyle = pillGrad;
+        ctx.beginPath();
+        ctx.roundRect(boxX + 48, boxY + 48, 380, 46, 23);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(badgeTextToShow, boxX + 70, boxY + 77);
+        ctx.restore();
+
+        // Hook Text
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        const hookBottomY = fitAndWrapText(
+            ctx,
+            `"${cleanHook}"`,
+            boxX + 48, boxY + 155,
+            boxW - 96, 360,
+            44, '800'
+        );
+        ctx.restore();
+
+        // Subtitle Text Block
+        ctx.save();
+        ctx.fillStyle = 'rgba(226, 232, 240, 0.9)';
+        ctx.textAlign = 'left';
+        const subBottomY = fitAndWrapText(
+            ctx,
+            subtitleText,
+            boxX + 48, hookBottomY + 30,
+            boxW - 96, 170,
+            26, '500'
+        );
+        ctx.restore();
+
+        // Micro-Story Experience Box
+        ctx.save();
+        const recY = Math.max(subBottomY + 24, boxY + 670);
+        const recH = boxY + boxH - recY - 40;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+        ctx.strokeStyle = 'rgba(250, 204, 21, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(boxX + 40, recY, boxW - 80, Math.max(recH, 140), 20);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#facc15';
+        ctx.textAlign = 'left';
+        fitAndWrapText(
+            ctx,
+            microStory,
+            boxX + 68, recY + 42,
+            boxW - 136, 120,
+            22, '600'
+        );
+        ctx.restore();
+
+    } else if (preset === 1) {
+        // ==========================================
+        // PRESET 1: Confession Speech Bubble & Hero Hook
+        // ==========================================
+
+        const topCardY = headerY;
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(60, topCardY, 880, 100, 28);
+        ctx.fill();
+        ctx.stroke();
+
+        if (app.id === 'droidv') {
+            ctx.save();
+            ctx.shadowColor = 'rgba(56, 189, 248, 0.6)';
+            ctx.shadowBlur = 20;
+            const dvGrad = ctx.createLinearGradient(84, topCardY + 12, 160, topCardY + 88);
+            dvGrad.addColorStop(0, '#0f172a');
+            dvGrad.addColorStop(1, '#0284c7');
+            ctx.fillStyle = dvGrad;
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.roundRect(84, topCardY + 12, 76, 76, 18);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '800 34px "Outfit", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('DV', 122, topCardY + 50);
+            ctx.restore();
+        } else if (appLogo) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(84, topCardY + 12, 76, 76, 18);
+            ctx.clip();
+            ctx.drawImage(appLogo, 84, topCardY + 12, 76, 76);
+            ctx.restore();
+        }
+
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 32px "Outfit", sans-serif';
+        ctx.fillText(app.name, 180, topCardY + 48);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '700 18px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`💬 REAL USER CONFESSION • 100% PRIVATE`, 180, topCardY + 76);
+        ctx.restore();
+
+        const boxX = 60, boxW = 880;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = 45;
+        ctx.shadowOffsetY = 20;
+
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.82)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, boxW, boxH, 36);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(boxX + 48, boxY + 48, 340, 44, 22);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(badgePrefix ? `🔥 ${badgePrefix}` : `🔥 VIRAL RECOMMENDATION`, boxX + 68, boxY + 76);
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        const hookBottomY = fitAndWrapText(
+            ctx,
+            `"${cleanHook}"`,
+            boxX + 48, boxY + 150,
+            boxW - 96, 360,
+            44, '800'
+        );
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(226, 232, 240, 0.9)';
+        ctx.textAlign = 'left';
+        const subBottomY = fitAndWrapText(
+            ctx,
+            subtitleText,
+            boxX + 48, hookBottomY + 30,
+            boxW - 96, 170,
+            26, '500'
+        );
+        ctx.restore();
+
+        ctx.save();
+        const recY = Math.max(subBottomY + 24, boxY + 670);
+        ctx.fillStyle = 'rgba(250, 204, 21, 0.08)';
+        ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(boxX + 40, recY, boxW - 80, 160, 20);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#facc15';
+        ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
+        fitAndWrapText(
+            ctx,
+            microStory,
+            boxX + 68, recY + 42,
+            boxW - 136, 120,
+            22, '600'
+        );
+        ctx.restore();
+
+    } else {
+        // ==========================================
+        // PRESET 2: Minimalist Split Focus
+        // ==========================================
+        
+        if (app.id === 'droidv') {
+            ctx.save();
+            ctx.shadowColor = 'rgba(56, 189, 248, 0.6)';
+            ctx.shadowBlur = 20;
+            const dvGrad = ctx.createLinearGradient(70, headerY, 154, headerY + 84);
+            dvGrad.addColorStop(0, '#0f172a');
+            dvGrad.addColorStop(1, '#0284c7');
+            ctx.fillStyle = dvGrad;
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.roundRect(70, headerY, 84, 84, 20);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '800 36px "Outfit", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('DV', 112, headerY + 42);
+            ctx.restore();
+        } else if (appLogo) {
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.roundRect(70, headerY, 84, 84, 20);
+            ctx.clip();
+            ctx.drawImage(appLogo, 70, headerY, 84, 84);
+            ctx.restore();
+        }
+
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 36px "Outfit", sans-serif';
+        ctx.fillText(app.name, 175, headerY + 44);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.font = '600 18px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`100% FREE OFFLINE TOOL`, 175, headerY + 74);
+        ctx.restore();
+
+        const boxX = 60, boxY = 195, boxW = 880, boxH = 500;
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = 40;
+        ctx.shadowOffsetY = 15;
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, boxW, boxH, 32);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = '#e60023';
+        ctx.beginPath();
+        ctx.roundRect(boxX + 44, boxY + 40, 280, 40, 20);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 17px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(badgePrefix ? `📌 ${badgePrefix}` : `📌 DAILY ESSENTIAL`, boxX + 64, boxY + 66);
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        fitAndWrapText(
+            ctx,
+            `"${cleanHook}"`,
+            boxX + 44, boxY + 130,
+            boxW - 88, 320,
+            42, '800'
+        );
+        ctx.restore();
+
+        const box2Y = 720, box2H = 410;
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 30;
+        ctx.fillStyle = 'rgba(10, 15, 30, 0.78)';
+        ctx.strokeStyle = 'rgba(250, 204, 21, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(boxX, box2Y, boxW, box2H, 32);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(226, 232, 240, 0.9)';
+        const sub2BottomY = fitAndWrapText(
+            ctx,
+            subtitleText,
+            boxX + 44, box2Y + 50,
+            boxW - 88, 140,
+            25, '500'
+        );
+
+        ctx.fillStyle = '#facc15';
+        fitAndWrapText(
+            ctx,
+            microStory,
+            boxX + 44, sub2BottomY + 24,
+            boxW - 88, 130,
+            22, '600'
+        );
+        ctx.restore();
+    }
+
+    // ==========================================
+    // Sleek 2026 Pill CTA Button
+    // ==========================================
+    const ctaY = 1170, ctaH = 105;
     ctx.save();
-    const ctaY = 1195, ctaH = 98;
-    const ctaGrad = ctx.createLinearGradient(68, ctaY, 932, ctaY);
-    ctaGrad.addColorStop(0, '#e60023');
-    ctaGrad.addColorStop(1, '#ff4d6d');
-    ctx.shadowColor = 'rgba(230,0,35,0.4)';
-    ctx.shadowBlur = 28;
-    ctx.shadowOffsetY = 10;
+    
+    ctx.shadowColor = strategyMode === 'organic_search' ? 'rgba(56, 189, 248, 0.55)' : 'rgba(230, 0, 35, 0.55)';
+    ctx.shadowBlur = 35;
+    ctx.shadowOffsetY = 12;
+
+    const ctaGrad = ctx.createLinearGradient(60, ctaY, 940, ctaY);
+    if (strategyMode === 'organic_search') {
+        ctaGrad.addColorStop(0, '#0284c7');
+        ctaGrad.addColorStop(0.5, '#38bdf8');
+        ctaGrad.addColorStop(1, '#0284c7');
+    } else {
+        ctaGrad.addColorStop(0, '#e60023');
+        ctaGrad.addColorStop(0.5, '#ff2a55');
+        ctaGrad.addColorStop(1, '#e60023');
+    }
     ctx.fillStyle = ctaGrad;
+
     ctx.beginPath();
-    ctx.roundRect(68, ctaY, 864, ctaH, 24);
+    ctx.roundRect(60, ctaY, 880, ctaH, 32);
     ctx.fill();
+
     ctx.shadowColor = 'transparent';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 33px "Plus Jakarta Sans", sans-serif';
+    ctx.font = 'bold 32px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Read Full Story & Solution ➔', W / 2, ctaY + 60);
+
+    const ctaText = strategyMode === 'organic_search'
+        ? (app.id === 'droidv' ? '🔍 Search "droidv.com" on Google  ➔' : `🔍 Search "${app.name}" on Play Store  ➔`)
+        : 'Read Full Story & Solution  ➔';
+    ctx.fillText(ctaText, W / 2, ctaY + 64);
     ctx.restore();
 
-    // Footer trust bar
+    // ==========================================
+    // Universal Footer Trust & SEO Bar
+    // ==========================================
     ctx.save();
-    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
     ctx.font = 'bold 19px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('🔒 100% On-Device • Zero Data Collection • No Subscriptions', W / 2, 1370);
+    const footerText = strategyMode === 'organic_search'
+        ? '🔍 Google Search "droidv.com" • 100% Free On-Device Privacy Tool'
+        : '🔒 100% Private On-Device • Zero Data Collection • No Ads';
+    ctx.fillText(footerText, W / 2, 1345);
     ctx.restore();
 
     return new Promise((resolve) => {
         canvas.toBlob((blob) => {
-            const dataUrl = canvas.toDataURL('image/webp', 0.85);
+            const dataUrl = canvas.toDataURL('image/webp', 0.92);
             resolve({ blob, dataUrl });
-        }, 'image/webp', 0.85);
+        }, 'image/webp', 0.92);
+    });
+}
+
+// ---- Custom Story Pin Canvas Renderer (Feature Folder Backgrounds + Glassmorphic Story Card) ----
+async function renderCustomStoryPinCanvas(story, utmCode, customLoadedImage = null) {
+    const W = 1000, H = 1500;
+    canvas.width = W;
+    canvas.height = H;
+
+    let bgImg = customLoadedImage;
+    if (!bgImg) {
+        bgImg = await loadFeatureBackgroundImage(story.feature, parseInt(utmCode, 10) || Math.floor(Math.random() * 20));
+    }
+
+    if (bgImg) {
+        // Scale and center cover crop for 2:3 canvas
+        const imgAspect = bgImg.width / bgImg.height;
+        const canvasAspect = W / H;
+        let drawW, drawH, drawX, drawY;
+
+        // Scale image 1.35x and anchor to bottom, shifting upper subject 25% upwards into frame above card
+        const scaleFactor = 1.35;
+        if (imgAspect > canvasAspect) {
+            drawH = H * scaleFactor;
+            drawW = drawH * imgAspect;
+        } else {
+            drawW = W * scaleFactor;
+            drawH = drawW / imgAspect;
+        }
+        drawX = (W - drawW) / 2;
+        drawY = H - drawH; // Shift top focal scene 25% upwards
+        ctx.drawImage(bgImg, drawX, drawY, drawW, drawH);
+    } else {
+        const darkGrad = ctx.createLinearGradient(0, 0, W, H);
+        darkGrad.addColorStop(0, '#090d16');
+        darkGrad.addColorStop(0.35, '#0f172a');
+        darkGrad.addColorStop(0.75, '#1e293b');
+        darkGrad.addColorStop(1, '#050810');
+        ctx.fillStyle = darkGrad;
+        ctx.fillRect(0, 0, W, H);
+    }
+
+    // Overlay dark gradient vignette for contrast
+    ctx.save();
+    const vignetteGrad = ctx.createLinearGradient(0, 0, 0, H);
+    vignetteGrad.addColorStop(0, 'rgba(5, 8, 16, 0.65)');
+    vignetteGrad.addColorStop(0.25, 'rgba(5, 8, 16, 0.20)');
+    vignetteGrad.addColorStop(0.55, 'rgba(5, 8, 16, 0.50)');
+    vignetteGrad.addColorStop(1, 'rgba(3, 5, 11, 0.95)');
+    ctx.fillStyle = vignetteGrad;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    // 2. Floating Translucent Glass Story Card (Matches user reference screenshot)
+    const boxX = 45;
+    const boxY = 620;
+    const boxW = 910;
+    const boxH = 820;
+    const pad = 42;
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+    ctx.shadowBlur = 55;
+    ctx.shadowOffsetY = 24;
+
+    const darkGlassGrad = ctx.createLinearGradient(boxX, boxY, boxX, boxY + boxH);
+    darkGlassGrad.addColorStop(0, 'rgba(10, 16, 32, 0.48)');
+    darkGlassGrad.addColorStop(1, 'rgba(6, 10, 22, 0.65)');
+    ctx.fillStyle = darkGlassGrad;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.roundRect(boxX, boxY, boxW, boxH, 36);
+    ctx.fill();
+    ctx.stroke();
+
+    // Subtle glassmorphic inner specular glow
+    const innerGlassGrad = ctx.createLinearGradient(boxX, boxY, boxX, boxY + 200);
+    innerGlassGrad.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+    innerGlassGrad.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+    ctx.fillStyle = innerGlassGrad;
+    ctx.beginPath();
+    ctx.roundRect(boxX, boxY, boxW, boxH, 36);
+    ctx.fill();
+    ctx.restore();
+
+    // 3. High-Contrast Multi-Paragraph Story Text inside Glass Card
+    ctx.save();
+    fitAndWrapParagraphText(
+        ctx,
+        story.storyText,
+        boxX + pad,
+        boxY + pad,
+        boxW - (pad * 2),
+        boxH - (pad * 2),
+        24
+    );
+    ctx.restore();
+
+    return new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+            const dataUrl = canvas.toDataURL('image/webp', 0.88);
+            resolve({ blob, dataUrl });
+        }, 'image/webp', 0.88);
     });
 }
 
 // ---- 1-Click Bulk Generator ----
-async function handleBulkGenerate() {
+async function handleBulkGenerate(targetMode = 'all') {
     try {
         const pinsPerApp = parseInt(pinsPerAppInput.value) || 2;
         const campaignName = utmCampaignInput.value.trim() || 'pinterest_bulk';
-        const boardName = boardNameInput.value.trim() || 'Best Offline Android Apps';
+        const customBoard = boardNameInput.value.trim();
+
+        let targetApps = APPS_DATABASE;
+        let defaultBoard = 'Best Offline Android Apps';
+        let pinsToGenerate = parseInt(pinsPerAppInput.value) || 2;
+
+        let strategyMode = pinStrategyModeSelect ? pinStrategyModeSelect.value : 'organic_search';
+        const themeSelect = imageThemeSelect ? imageThemeSelect.value : 'reddit_viral';
+
+        if (targetMode === 'organic_droidv') {
+            targetApps = APPS_DATABASE.filter(a => a.id === 'droidv');
+            defaultBoard = 'DroidV AI Private Web Tools';
+            const reqCount = parseInt(droidvStoryCountInput ? droidvStoryCountInput.value : '55', 10) || 55;
+            pinsToGenerate = Math.min(Math.max(reqCount, 1), 55);
+            strategyMode = 'organic_search';
+        } else if (targetMode === 'droidv') {
+            targetApps = APPS_DATABASE.filter(a => a.id === 'droidv');
+            defaultBoard = 'DroidV AI Private Web Tools';
+            const reqCount = parseInt(droidvStoryCountInput ? droidvStoryCountInput.value : '55', 10) || 55;
+            pinsToGenerate = Math.min(Math.max(reqCount, 1), 55);
+        } else if (targetMode === 'apps') {
+            targetApps = APPS_DATABASE.filter(a => a.id !== 'droidv');
+            defaultBoard = 'Best Offline Android Apps';
+        }
+
+        const boardName = customBoard || defaultBoard;
 
         generatedPins = [];
         pinsGrid.innerHTML = '';
         btnUploadGithub.disabled = true;
         btnDownloadCsv.disabled = true;
-        btnGenerateAll.disabled = true;
+        if (btnGenerateApps) btnGenerateApps.disabled = true;
+        if (btnGenerateDroidVWeb) btnGenerateDroidVWeb.disabled = true;
+        if (btnGenerateOrganicSearch) btnGenerateOrganicSearch.disabled = true;
 
-        const totalPins = APPS_DATABASE.length * pinsPerApp;
-        updateStatus('Generating Pin Designs...', `Creating ${totalPins} unique pins across 9 apps...`, 5, true);
+        const totalPins = targetApps.length * pinsToGenerate;
+        const targetLabel = (targetMode === 'organic_droidv' || targetMode === 'droidv') ? `${pinsToGenerate} DroidV Stories` : (targetMode === 'apps' ? '9 Android Apps' : 'All Catalog Items');
+        updateStatus('Generating Pin Designs...', `Creating ${totalPins} unique pins for ${targetLabel}...`, 5, true);
 
         let globalSeed = getGlobalSeedCounter();
         let runIndex = 1;
 
-        for (let ai = 0; ai < APPS_DATABASE.length; ai++) {
-            const app = APPS_DATABASE[ai];
+        for (let ai = 0; ai < targetApps.length; ai++) {
+            const app = targetApps[ai];
 
-            for (let i = 0; i < pinsPerApp; i++) {
+            for (let i = 0; i < pinsToGenerate; i++) {
                 const utmCode = String(globalSeed).padStart(3, '0');
-                const { hook: hookText, subtitle: subtitleText, microStory, keywords } = getDynamicStoryContent(app);
+                const { hook: hookText, subtitle: subtitleText, microStory, keywords, article } = getDynamicStoryContent(app);
 
-                const { blob, dataUrl } = await renderPinCanvas(app, hookText, subtitleText, microStory);
+                const { blob, dataUrl } = await renderPinCanvas(app, hookText, subtitleText, microStory, runIndex, strategyMode, themeSelect);
 
-                // Dynamic URL Anti-Spam Engine: Generates unique URL parameter combinations for Play Store links
-                const randTerm = ['android', 'mobile', 'focus', 'minimalist', 'privacy', 'daily', 'routine'][Math.floor(Math.random() * 7)];
+                // Dynamic URL & Strategy Mode Engine
+                const randTerm = ['finance', 'mortgage', 'privacy', 'legal', 'tax', 'audit', 'debt'][Math.floor(Math.random() * 7)];
                 const randRef = ['pin', 'feed', 'story', 'idea', 'board'][Math.floor(Math.random() * 5)];
-                const trackedUrl = `${app.playStoreUrl}&utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_term=${randTerm}_${utmCode}&utm_content=${randRef}_${utmCode}`;
+                
+                let trackedUrl = "";
+                if (strategyMode === 'direct_link') {
+                    trackedUrl = app.playStoreUrl;
+                    if (app.id === 'droidv' && article && article.url) {
+                        trackedUrl = article.url;
+                    } else {
+                        const urlSeparator = trackedUrl.includes('?') ? '&' : '?';
+                        trackedUrl = `${trackedUrl}${urlSeparator}utm_source=pinterest&utm_medium=social&utm_campaign=${campaignName}&utm_term=${randTerm}_${utmCode}&utm_content=${randRef}_${utmCode}`;
+                    }
+                }
+                
+                // Dynamic Pinterest Board Name per article category
+                let pinBoardName = customBoard;
+                if (!pinBoardName || pinBoardName === 'Best Offline Android Apps') {
+                    if (app.id === 'droidv' && article && article.category) {
+                        pinBoardName = `DroidV - ${article.category}`;
+                    } else {
+                        pinBoardName = defaultBoard;
+                    }
+                }
+                
                 const fileName = `pin_${app.id}_${utmCode}.webp`;
-                // Guarantee 100% unique title for Pinterest Bulk Uploader to avoid "Multiple rows with the same title" error
-                const pinTitle = `${hookText} (${app.name} #${utmCode})`;
-                const pinDescription = `${hookText} ${subtitleText} ${microStory} Discover how to reclaim your daily focus with ${app.name} — a 100% offline, privacy-first Android solution with zero logins. Keywords: ${keywords}. #${app.name.replace(/\s+/g, '')} #MinimalistTools #PrivacyFirst #DroidV`;
+                const itemBadge = article ? article.badge : app.name;
+                const pinTitle = `${hookText} (${itemBadge} #${utmCode})`;
+                
+                let pinDescription = `${hookText} ${subtitleText} ${microStory} Guide: ${article ? article.title : app.name}. Discover how to reclaim privacy and security with 100% on-device local browser processing on DroidV. High-Volume Search Keywords: ${keywords}. #${app.name.replace(/\s+/g, '')} #PrivacyFirst #DroidV #FinancialFreedom #TaxTips #LegalAI`;
+
+                if (strategyMode === 'organic_search') {
+                    const searchTarget = app.id === 'droidv' ? 'droidv.com' : `${app.name} on Google Play Store`;
+                    pinDescription += `\n\n🔍 HOW TO ACCESS: Search "${searchTarget}" on Google to run this 100% free tool locally in browser RAM without uploading sensitive files!`;
+                }
 
                 const pinItem = {
                     id: runIndex,
@@ -663,7 +1323,7 @@ async function handleBulkGenerate() {
                     pinTitle,
                     pinDescription,
                     destinationUrl: trackedUrl,
-                    boardName,
+                    boardName: pinBoardName,
                     utmCode,
                     githubUrl: null,
                     uploaded: false
@@ -687,12 +1347,16 @@ async function handleBulkGenerate() {
         pinCounter.textContent = generatedPins.length;
         updateStatus('Pins Generated!', `${generatedPins.length} unique WebP pins ready. Upload to GitHub next.`, 50, false);
         btnUploadGithub.disabled = false;
-        btnGenerateAll.disabled = false;
+        if (btnGenerateApps) btnGenerateApps.disabled = false;
+        if (btnGenerateDroidVWeb) btnGenerateDroidVWeb.disabled = false;
+        if (btnGenerateOrganicSearch) btnGenerateOrganicSearch.disabled = false;
 
     } catch (err) {
         console.error('Bulk Generation Error:', err);
         updateStatus('Generation Error', `Error: ${err.message}`, 0, false);
-        btnGenerateAll.disabled = false;
+        if (btnGenerateApps) btnGenerateApps.disabled = false;
+        if (btnGenerateDroidVWeb) btnGenerateDroidVWeb.disabled = false;
+        if (btnGenerateOrganicSearch) btnGenerateOrganicSearch.disabled = false;
         alert(`Generation Error: ${err.message}`);
     }
 }
@@ -842,17 +1506,25 @@ function handleDownloadCsv() {
 
     for (const pin of generatedPins) {
         const imageUrl = pin.githubUrl || `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/images/${pin.fileName}`;
+        
+        // Clean multiline text fields for strict CSV RFC 4180 compliance
+        const cleanTitle = pin.pinTitle ? pin.pinTitle.replace(/\r?\n|\r/g, ' ').replace(/"/g, '""').trim() : '';
+        const cleanDesc = pin.pinDescription ? pin.pinDescription.replace(/\r?\n|\r/g, ' ').replace(/"/g, '""').trim() : '';
+        const cleanBoard = pin.boardName ? pin.boardName.replace(/\r?\n|\r/g, ' ').replace(/"/g, '""').trim() : 'DroidV Viral Stories & Rights';
+        
+        let destLink = (pin.destinationUrl && pin.destinationUrl.trim() !== '') ? pin.destinationUrl.trim() : '';
+
         rows.push([
-            `"${pin.pinTitle.replace(/"/g, '""')}"`,
+            `"${cleanTitle}"`,
             `"${imageUrl}"`,
-            `"${pin.boardName.replace(/"/g, '""')}"`,
-            `"${pin.pinDescription.replace(/"/g, '""')}"`,
-            `"${pin.destinationUrl}"`
+            `"${cleanBoard}"`,
+            `"${cleanDesc}"`,
+            `"${destLink}"`
         ]);
     }
 
-    const csvContent = rows.map(r => r.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const csvContent = rows.map(r => r.join(',')).join('\r\n');
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -958,6 +1630,7 @@ async function handlePostToTumblr() {
     const total = generatedPins.length;
 
     for (let i = 0; i < total; i++) {
+        const pin = generatedPins[i];
         // Tumblr Photo Post URL Construction
         const rawGithubUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/images/${pin.fileName}`;
         const jsdelivrUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}@main/images/${pin.fileName}`;
@@ -982,6 +1655,96 @@ async function handlePostToTumblr() {
     btnPostTumblr.disabled = false;
 }
 
+// ---- Custom Story Generator Handler ----
+async function handleGenerateCustomStories() {
+    try {
+        const storiesCountInput = document.getElementById('customStoryCount');
+        const count = parseInt(storiesCountInput ? storiesCountInput.value : '50', 10) || 50;
+
+        const storiesList = window.CUSTOM_STORIES || [];
+        if (storiesList.length === 0) {
+            alert('No custom stories found in stories/custom_stories.js!');
+            return;
+        }
+
+        generatedPins = [];
+        pinsGrid.innerHTML = '';
+        btnUploadGithub.disabled = true;
+        btnDownloadCsv.disabled = true;
+
+        let globalSeed = getGlobalSeedCounter();
+        const totalPins = count;
+
+        updateStatus('Rendering Custom Story Pins...', `Generating ${totalPins} Custom Story Pins...`, 5, true);
+
+        // Check if user selected local background files manually
+        const fileInput = document.getElementById('customBgFileInput');
+        let userImages = [];
+        if (fileInput && fileInput.files && fileInput.files.length > 0) {
+            for (let f = 0; f < fileInput.files.length; f++) {
+                const file = fileInput.files[f];
+                const dataUrl = await new Promise((res) => {
+                    const r = new FileReader();
+                    r.onload = (e) => res(e.target.result);
+                    r.readAsDataURL(file);
+                });
+                const img = await loadImage(dataUrl);
+                if (img) userImages.push(img);
+            }
+        }
+
+        for (let i = 0; i < totalPins; i++) {
+            const story = storiesList[i % storiesList.length];
+            const utmCode = String(globalSeed).padStart(3, '0');
+            const customImg = userImages.length > 0 ? userImages[i % userImages.length] : null;
+
+            const { blob, dataUrl } = await renderCustomStoryPinCanvas(story, utmCode, customImg);
+
+            const fileName = `pin_custom_${story.feature}_${utmCode}.webp`;
+            const pinTitle = `${story.title} (#${utmCode})`;
+
+            let pinDescription = `${story.storyText}\n\n🔍 HOW TO AUDIT: Search "droidv.com" on Google to audit your rights 100% privately in your browser memory without uploading sensitive files.\n\nKeywords: ${story.keywords} #DroidV #NoSurprisesAct #PrivacyFirst #MedicalDebtRelief`;
+
+            const pinItem = {
+                id: i + 1,
+                appId: 'droidv',
+                appName: `Custom Story (${story.feature})`,
+                fileName,
+                blob,
+                dataUrl,
+                hookText: story.title,
+                pinTitle,
+                pinDescription,
+                destinationUrl: '', // No-link organic search mode (story text contains Google search callout)
+                boardName: 'DroidV Viral Stories & Rights',
+                utmCode,
+                githubUrl: null,
+                uploaded: false
+            };
+
+            generatedPins.push(pinItem);
+            renderPinCard(pinItem, generatedPins.length - 1);
+
+            const pct = Math.round(((i + 1) / totalPins) * 50);
+            updateStatus('Rendering Custom Story Pins...', `Pin #${i + 1} of ${totalPins} rendered (${story.badge || story.feature})`, pct, true);
+
+            await new Promise(r => setTimeout(r, 10));
+            globalSeed++;
+        }
+
+        updateGlobalSeedCounter(globalSeed);
+        pinCounter.textContent = generatedPins.length;
+        updateStatus('Custom Pins Ready!', `${generatedPins.length} Custom Story Pins ready. Click Upload to GitHub or Download CSV.`, 50, false);
+        btnUploadGithub.disabled = false;
+        btnDownloadCsv.disabled = false;
+
+    } catch (err) {
+        console.error('Custom Story Generation Error:', err);
+        updateStatus('Generation Error', `Error: ${err.message}`, 0, false);
+        alert(`Generation Error: ${err.message}`);
+    }
+}
+
 // ---- Init on DOM Ready ----
 document.addEventListener('DOMContentLoaded', () => {
     // Canvas
@@ -999,16 +1762,44 @@ document.addEventListener('DOMContentLoaded', () => {
     statusDot = document.getElementById('statusDot');
 
     // Buttons
-    btnGenerateAll = document.getElementById('btnGenerateAll');
+    btnGenerateApps = document.getElementById('btnGenerateApps');
+    btnGenerateDroidVWeb = document.getElementById('btnGenerateDroidVWeb');
+    btnGenerateOrganicSearch = document.getElementById('btnGenerateOrganicSearch');
+    const btnGenerateCustomStories = document.getElementById('btnGenerateCustomStories');
     btnUploadGithub = document.getElementById('btnUploadGithub');
     btnDownloadCsv = document.getElementById('btnDownloadCsv');
     btnPostTumblr = document.getElementById('btnPostTumblr');
     btnDeleteGithub = document.getElementById('btnDeleteGithub');
 
+    // Tab Elements
+    const tabCustomStories = document.getElementById('tabCustomStories');
+    const tabAppsEngine = document.getElementById('tabAppsEngine');
+    const customStoriesPanel = document.getElementById('customStoriesPanel');
+    const appsEnginePanel = document.getElementById('appsEnginePanel');
+
+    if (tabCustomStories && tabAppsEngine) {
+        tabCustomStories.addEventListener('click', () => {
+            tabCustomStories.classList.add('active');
+            tabAppsEngine.classList.remove('active');
+            if (customStoriesPanel) customStoriesPanel.style.display = 'flex';
+            if (appsEnginePanel) appsEnginePanel.style.display = 'none';
+        });
+
+        tabAppsEngine.addEventListener('click', () => {
+            tabAppsEngine.classList.add('active');
+            tabCustomStories.classList.remove('active');
+            if (appsEnginePanel) appsEnginePanel.style.display = 'flex';
+            if (customStoriesPanel) customStoriesPanel.style.display = 'none';
+        });
+    }
+
     // Inputs
     pinsPerAppInput = document.getElementById('pinsPerApp');
+    droidvStoryCountInput = document.getElementById('droidvStoryCount');
     utmCampaignInput = document.getElementById('utmCampaign');
     boardNameInput = document.getElementById('boardName');
+    pinStrategyModeSelect = document.getElementById('pinStrategyMode');
+    imageThemeSelect = document.getElementById('imageThemeSelect');
 
     // Modal
     modalSlider = document.getElementById('modalSlider');
@@ -1023,10 +1814,13 @@ document.addEventListener('DOMContentLoaded', () => {
     sliderNext = document.getElementById('sliderNext');
 
     // Button listeners
-    btnGenerateAll.addEventListener('click', handleBulkGenerate);
+    if (btnGenerateCustomStories) btnGenerateCustomStories.addEventListener('click', handleGenerateCustomStories);
+    if (btnGenerateOrganicSearch) btnGenerateOrganicSearch.addEventListener('click', () => handleBulkGenerate('organic_droidv'));
+    if (btnGenerateApps) btnGenerateApps.addEventListener('click', () => handleBulkGenerate('apps'));
+    if (btnGenerateDroidVWeb) btnGenerateDroidVWeb.addEventListener('click', () => handleBulkGenerate('droidv'));
     btnUploadGithub.addEventListener('click', handleUploadToGithub);
     btnDownloadCsv.addEventListener('click', handleDownloadCsv);
-    btnPostTumblr.addEventListener('click', handlePostToTumblr);
+    if (btnPostTumblr) btnPostTumblr.addEventListener('click', handlePostToTumblr);
     btnDeleteGithub.addEventListener('click', handleDeleteGithubImages);
 
     // Modal listeners
@@ -1058,9 +1852,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Show seed counter in footer
+    // Show seed counter in status
     const seed = getGlobalSeedCounter();
-    updateStatus('Ready to Generate', `Session seed starts at #${String(seed).padStart(3,'0')}. Click "1-Click Bulk Generate All" to begin.`, 0, false);
+    updateStatus('Ready to Generate', `Session seed starts at #${String(seed).padStart(3,'0')}. Set quantity & click "Generate Custom BG Story Pins".`, 0, false);
 
-    console.log('DroidV Pinterest Bulk Engine initialized. Seed counter:', seed);
+    console.log('DroidV Pinterest Bulk Engine initialized with Custom Story Mode. Seed counter:', seed);
 });
