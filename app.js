@@ -383,11 +383,11 @@ const FEATURE_BG_MANIFEST = {
 function normalizeFeatureKey(featureOrCategory) {
     if (!featureOrCategory) return 'medical_bills';
     const str = String(featureOrCategory).toLowerCase();
-    if (str.includes('med') || str.includes('health') || str.includes('hospital') || str.includes('er')) return 'medical_bills';
-    if (str.includes('mortgage') || str.includes('real estate') || str.includes('home')) return 'mortgage_refinance';
-    if (str.includes('legal') || str.includes('contract') || str.includes('lease')) return 'legal_contract';
-    if (str.includes('loan') || str.includes('debt') || str.includes('financial')) return 'loan_strategy';
-    if (str.includes('tax') || str.includes('freelanc') || str.includes('business')) return 'tax_deductions';
+    if (str.includes('med') || str.includes('health') || str.includes('hospital') || str.includes('er') || str.includes('doctor')) return 'medical_bills';
+    if (str.includes('mortgage') || str.includes('real estate') || str.includes('home') || str.includes('property')) return 'mortgage_refinance';
+    if (str.includes('legal') || str.includes('contract') || str.includes('lease') || str.includes('dev') || str.includes('cyber') || str.includes('api') || str.includes('security')) return 'legal_contract';
+    if (str.includes('loan') || str.includes('debt') || str.includes('financial') || str.includes('yield') || str.includes('crypto')) return 'loan_strategy';
+    if (str.includes('tax') || str.includes('freelanc') || str.includes('business') || str.includes('corporate') || str.includes('startup') || str.includes('depreciation')) return 'tax_deductions';
     return 'medical_bills';
 }
 
@@ -1236,15 +1236,16 @@ async function handleBulkGenerate(targetMode = 'all') {
 
         if (targetMode === 'organic_droidv') {
             targetApps = APPS_DATABASE.filter(a => a.id === 'droidv');
-            defaultBoard = 'DroidV AI Private Web Tools';
-            const reqCount = parseInt(droidvStoryCountInput ? droidvStoryCountInput.value : '55', 10) || 55;
-            pinsToGenerate = Math.min(Math.max(reqCount, 1), 55);
+            const maxTools = (window.DROIDV_ARTICLES && window.DROIDV_ARTICLES.length) ? window.DROIDV_ARTICLES.length : 87;
+            const reqCount = parseInt(droidvStoryCountInput ? droidvStoryCountInput.value : String(maxTools), 10) || maxTools;
+            pinsToGenerate = Math.min(Math.max(reqCount, 1), maxTools);
             strategyMode = 'organic_search';
         } else if (targetMode === 'droidv') {
             targetApps = APPS_DATABASE.filter(a => a.id === 'droidv');
             defaultBoard = 'DroidV AI Private Web Tools';
-            const reqCount = parseInt(droidvStoryCountInput ? droidvStoryCountInput.value : '55', 10) || 55;
-            pinsToGenerate = Math.min(Math.max(reqCount, 1), 55);
+            const maxTools = (window.DROIDV_ARTICLES && window.DROIDV_ARTICLES.length) ? window.DROIDV_ARTICLES.length : 87;
+            const reqCount = parseInt(droidvStoryCountInput ? droidvStoryCountInput.value : String(maxTools), 10) || maxTools;
+            pinsToGenerate = Math.min(Math.max(reqCount, 1), maxTools);
         } else if (targetMode === 'apps') {
             targetApps = APPS_DATABASE.filter(a => a.id !== 'droidv');
             defaultBoard = 'Best Offline Android Apps';
